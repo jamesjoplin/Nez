@@ -9,7 +9,7 @@
 		/// <summary>
 		/// The wrapped data value
 		/// </summary>
-		public T data;
+		public T Data;
 
 		/// <summary>
 		/// The QuadTreeNode that owns this object
@@ -20,10 +20,9 @@
 		/// Wraps the data value
 		/// </summary>
 		/// <param name="data">The data value to wrap</param>
-		public QuadTreeObject( T data )
+		public QuadTreeObject(T data)
 		{
-			this.data = data;
+			this.Data = data;
 		}
 	}
 }
-

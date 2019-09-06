@@ -8,405 +8,407 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nez;
 
+
 namespace Nez.BitmapFonts
 {
-    public partial class BitmapFont : IDisposable, IFont
-    {
-        /// <summary>
-        /// When used with <see cref="MeasureFont(string,double)"/>, specifies that no wrapping should occur.
-        /// </summary>
-        const int kNoMaxWidth = -1;
+	public partial class BitmapFont : IDisposable, IFont
+	{
+		/// <summary>
+		/// When used with <see cref="MeasureFont(string,double)"/>, specifies that no wrapping should occur.
+		/// </summary>
+		const int kNoMaxWidth = -1;
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// alpha channel.
-        /// </summary>
-        /// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
-        public int alphaChannel;
+		/// <summary>
+		/// alpha channel.
+		/// </summary>
+		/// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
+		public int AlphaChannel;
 
-        /// <summary>
-        /// number of pixels from the absolute top of the line to the base of the characters.
-        /// </summary>
-        public int baseHeight;
+		/// <summary>
+		/// number of pixels from the absolute top of the line to the base of the characters.
+		/// </summary>
+		public int BaseHeight;
 
-        /// <summary>
-        /// blue channel.
-        /// </summary>
-        /// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
-        public int blueChannel;
+		/// <summary>
+		/// blue channel.
+		/// </summary>
+		/// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
+		public int BlueChannel;
 
-        public bool bold;
+		public bool Bold;
 
-        /// <summary>
-        /// characters that comprise the font.
-        /// </summary>
-        public IDictionary<char, Character> characters;
+		/// <summary>
+		/// characters that comprise the font.
+		/// </summary>
+		public IDictionary<char, Character> Characters;
 
-        /// <summary>
-        /// name of the OEM charset used.
-        /// </summary>
-        public string charset;
+		/// <summary>
+		/// name of the OEM charset used.
+		/// </summary>
+		public string Charset;
 
-        /// <summary>
-        /// name of the true type font.
-        /// </summary>
-        public string familyName;
+		/// <summary>
+		/// name of the true type font.
+		/// </summary>
+		public string FamilyName;
 
-        /// <summary>
-        /// size of the font.
-        /// </summary>
-        public int fontSize;
+		/// <summary>
+		/// size of the font.
+		/// </summary>
+		public int FontSize;
 
-        /// <summary>
-        /// green channel.
-        /// </summary>
-        /// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
-        public int greenChannel;
+		/// <summary>
+		/// green channel.
+		/// </summary>
+		/// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
+		public int GreenChannel;
 
-        public bool italic;
+		public bool Italic;
 
-        /// <summary>
-        /// character kernings for the font.
-        /// </summary>
-        public IDictionary<Kerning, int> kernings;
+		/// <summary>
+		/// character kernings for the font.
+		/// </summary>
+		public IDictionary<Kerning, int> Kernings;
 
-        /// <summary>
-        /// distance in pixels between each line of text.
-        /// </summary>
-        public int lineHeight;
+		/// <summary>
+		/// distance in pixels between each line of text.
+		/// </summary>
+		public int LineHeight;
 
-        public float lineSpacing => lineHeight;
+		public float LineSpacing => LineHeight;
 
-        /// <summary>
-        /// outline thickness for the characters.
-        /// </summary>
-        public int outlineSize;
+		/// <summary>
+		/// outline thickness for the characters.
+		/// </summary>
+		public int OutlineSize;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the monochrome charaters have been packed into each of the texture channels.
-        /// </summary>
-        /// <remarks>
-        /// When packed, the <see cref="alphaChannel"/> property describes what is stored in each channel.
-        /// </remarks>
-        public bool packed;
+		/// <summary>
+		/// Gets or sets a value indicating whether the monochrome charaters have been packed into each of the texture channels.
+		/// </summary>
+		/// <remarks>
+		/// When packed, the <see cref="AlphaChannel"/> property describes what is stored in each channel.
+		/// </remarks>
+		public bool Packed;
 
-        /// <summary>
-        /// padding for each character.
-        /// </summary>
-        public Padding padding;
+		/// <summary>
+		/// padding for each character.
+		/// </summary>
+		public Padding Padding;
 
-        /// <summary>
-        /// texture pages for the font.
-        /// </summary>
-        public Page[] pages;
+		/// <summary>
+		/// texture pages for the font.
+		/// </summary>
+		public Page[] Pages;
 
-        /// <summary>
-        /// houses the Textures for each Page, with the same index as the Page.
-        /// </summary>
-        public Texture2D[] textures;
+		/// <summary>
+		/// houses the Textures for each Page, with the same index as the Page.
+		/// </summary>
+		public Texture2D[] Textures;
 
-        /// <summary>
-        /// red channel.
-        /// </summary>
-        /// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
-        public int redChannel;
+		/// <summary>
+		/// red channel.
+		/// </summary>
+		/// <remarks>Set to 0 if the channel holds the glyph data, 1 if it holds the outline, 2 if it holds the glyph and the outline, 3 if it's set to zero, and 4 if it's set to one.</remarks>
+		public int RedChannel;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the font is smoothed.
-        /// </summary>
-        public bool smoothed;
+		/// <summary>
+		/// Gets or sets a value indicating whether the font is smoothed.
+		/// </summary>
+		public bool Smoothed;
 
-        /// <summary>
-        /// spacing for each character.
-        /// </summary>
-        public Point spacing;
+		/// <summary>
+		/// spacing for each character.
+		/// </summary>
+		public Point Spacing;
 
-        /// <summary>
-        /// font height stretch.
-        /// </summary>
-        /// <remarks>100% means no stretch.</remarks>
-        public int stretchedHeight;
+		/// <summary>
+		/// font height stretch.
+		/// </summary>
+		/// <remarks>100% means no stretch.</remarks>
+		public int StretchedHeight;
 
-        /// <summary>
-        /// level of super sampling used by the font.
-        /// </summary>
-        /// <remarks>A value of 1 indicates no super sampling is in use.</remarks>
-        public int superSampling;
+		/// <summary>
+		/// level of super sampling used by the font.
+		/// </summary>
+		/// <remarks>A value of 1 indicates no super sampling is in use.</remarks>
+		public int SuperSampling;
 
-        /// <summary>
-        /// size of the texture images used by the font.
-        /// </summary>
-        public Point textureSize;
+		/// <summary>
+		/// size of the texture images used by the font.
+		/// </summary>
+		public Point TextureSize;
 
-        public bool unicode;
+		public bool Unicode;
 
-        public Character defaultCharacter;
+		public Character DefaultCharacter;
 
-        internal int _spaceWidth;
+		internal int _spaceWidth;
 
-        #endregion
+		#endregion
 
-        /// <summary>
-        /// Index to get items within thsi collection using array index syntax.
-        /// </summary>
-        public Character this[char character] => characters[character];
+		/// <summary>
+		/// Index to get items within thsi collection using array index syntax.
+		/// </summary>
+		public Character this[char character] => Characters[character];
 
-        public void Initialize()
-        {
-            LoadTextures();
-            if (characters.TryGetValue(' ', out var defaultChar))
-            {
-                defaultCharacter = defaultChar;
-            }
-            else
-            {
-                Debug.log($"Font {this.familyName} has no space character!");
-                defaultCharacter = this['a'];
-            }
-            _spaceWidth = defaultCharacter.bounds.Width + defaultCharacter.xAdvance;
-        }
+		public void Initialize()
+		{
+			LoadTextures();
+			if (Characters.TryGetValue(' ', out var defaultChar))
+			{
+				DefaultCharacter = defaultChar;
+			}
+			else
+			{
+				Debug.Log($"Font {this.FamilyName} has no space character!");
+				DefaultCharacter = this['a'];
+			}
 
-        /// <summary>
-        /// Gets the kerning for the specified character combination.
-        /// </summary>
-        /// <param name="previous">The previous character.</param>
-        /// <param name="current">The current character.</param>
-        /// <returns>
-        /// The spacing between the specified characters.
-        /// </returns>
-        public int GetKerning(char previous, char current)
-        {
-            var key = new Kerning(previous, current, 0);
-            if (!kernings.TryGetValue(key, out var result))
-                return 0;
+			_spaceWidth = DefaultCharacter.Bounds.Width + DefaultCharacter.XAdvance;
+		}
 
-            return result;
-        }
+		/// <summary>
+		/// Gets the kerning for the specified character combination.
+		/// </summary>
+		/// <param name="previous">The previous character.</param>
+		/// <param name="current">The current character.</param>
+		/// <returns>
+		/// The spacing between the specified characters.
+		/// </returns>
+		public int GetKerning(char previous, char current)
+		{
+			var key = new Kerning(previous, current, 0);
+			if (!Kernings.TryGetValue(key, out var result))
+				return 0;
 
-        public bool ContainsCharacter(char character) => characters.ContainsKey(character);
+			return result;
+		}
 
-        public bool hasCharacter(char character) => ContainsCharacter(character);
+		public bool ContainsCharacter(char character) => Characters.ContainsKey(character);
 
-        public string wrapText(string text, float maxLineWidth)
-        {
-            var words = text.Split(' ');
-            var sb = new StringBuilder();
-            var lineWidth = 0f;
+		public bool HasCharacter(char character) => ContainsCharacter(character);
 
-            if (maxLineWidth < _spaceWidth)
-                return string.Empty;
+		public string WrapText(string text, float maxLineWidth)
+		{
+			var words = text.Split(' ');
+			var sb = new StringBuilder();
+			var lineWidth = 0f;
 
-            foreach (var word in words)
-            {
-                var size = measureString(word);
-                if (lineWidth + size.X < maxLineWidth)
-                {
-                    sb.Append(word + " ");
-                    lineWidth += size.X + _spaceWidth;
-                }
-                else
-                {
-                    if (size.X > maxLineWidth)
-                    {
-                        if (sb.ToString() == "")
-                            sb.Append(wrapText(word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
-                        else
-                            sb.Append("\n" + wrapText(word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
-                    }
-                    else
-                    {
-                        sb.Append("\n" + word + " ");
-                        lineWidth = size.X + _spaceWidth;
-                    }
-                }
-            }
+			if (maxLineWidth < _spaceWidth)
+				return string.Empty;
 
-            return sb.ToString();
-        }
+			foreach (var word in words)
+			{
+				var size = MeasureString(word);
+				if (lineWidth + size.X < maxLineWidth)
+				{
+					sb.Append(word + " ");
+					lineWidth += size.X + _spaceWidth;
+				}
+				else
+				{
+					if (size.X > maxLineWidth)
+					{
+						if (sb.ToString() == "")
+							sb.Append(WrapText(word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
+						else
+							sb.Append("\n" + WrapText(word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
+					}
+					else
+					{
+						sb.Append("\n" + word + " ");
+						lineWidth = size.X + _spaceWidth;
+					}
+				}
+			}
 
-        /// <summary>
-        /// truncates text and returns a new string with ellipsis appended if necessary. This method ignores all
-        /// line breaks.
-        /// </summary>
-        /// <returns>The text.</returns>
-        /// <param name="text">Text.</param>
-        /// <param name="ellipsis">Ellipsis.</param>
-        /// <param name="maxLineWidth">Max line width.</param>
-        public string truncateText(string text, string ellipsis, float maxLineWidth)
-        {
-            if (maxLineWidth < _spaceWidth)
-                return string.Empty;
+			return sb.ToString();
+		}
 
-            var size = measureString(text);
+		/// <summary>
+		/// truncates text and returns a new string with ellipsis appended if necessary. This method ignores all
+		/// line breaks.
+		/// </summary>
+		/// <returns>The text.</returns>
+		/// <param name="text">Text.</param>
+		/// <param name="ellipsis">Ellipsis.</param>
+		/// <param name="maxLineWidth">Max line width.</param>
+		public string TruncateText(string text, string ellipsis, float maxLineWidth)
+		{
+			if (maxLineWidth < _spaceWidth)
+				return string.Empty;
 
-            // do we even need to truncate?
-            var ellipsisWidth = measureString(ellipsis).X;
-            if (size.X > maxLineWidth)
-            {
-                var sb = new StringBuilder();
+			var size = MeasureString(text);
 
-                var width = 0.0f;
-                Character currentChar = null;
-                var offsetX = 0.0f;
+			// do we even need to truncate?
+			var ellipsisWidth = MeasureString(ellipsis).X;
+			if (size.X > maxLineWidth)
+			{
+				var sb = new StringBuilder();
 
-                // determine how many chars we can fit in maxLineWidth - ellipsisWidth
-                for (var i = 0; i < text.Length; i++)
-                {
-                    var c = text[i];
+				var width = 0.0f;
+				Character currentChar = null;
+				var offsetX = 0.0f;
 
-                    // we don't deal with line breaks or tabs
-                    if (c == '\r' || c == '\n')
-                        continue;
+				// determine how many chars we can fit in maxLineWidth - ellipsisWidth
+				for (var i = 0; i < text.Length; i++)
+				{
+					var c = text[i];
 
-                    if (currentChar != null)
-                        offsetX += spacing.X + currentChar.xAdvance;
+					// we don't deal with line breaks or tabs
+					if (c == '\r' || c == '\n')
+						continue;
 
-                    if (ContainsCharacter(c))
-                        currentChar = this[c];
-                    else
-                        currentChar = defaultCharacter;
+					if (currentChar != null)
+						offsetX += Spacing.X + currentChar.XAdvance;
 
-                    var proposedWidth = offsetX + currentChar.xAdvance + spacing.X;
-                    if (proposedWidth > width)
-                        width = proposedWidth;
+					if (ContainsCharacter(c))
+						currentChar = this[c];
+					else
+						currentChar = DefaultCharacter;
 
-                    if (width < maxLineWidth - ellipsisWidth)
-                    {
-                        sb.Append(c);
-                    }
-                    else
-                    {
-                        // no more room. append our ellipsis and get out of here
-                        sb.Append(ellipsis);
-                        break;
-                    }
-                }
+					var proposedWidth = offsetX + currentChar.XAdvance + Spacing.X;
+					if (proposedWidth > width)
+						width = proposedWidth;
 
-                return sb.ToString();
-            }
+					if (width < maxLineWidth - ellipsisWidth)
+					{
+						sb.Append(c);
+					}
+					else
+					{
+						// no more room. append our ellipsis and get out of here
+						sb.Append(ellipsis);
+						break;
+					}
+				}
 
-            return text;
-        }
+				return sb.ToString();
+			}
 
-        public Vector2 measureString(string text)
-        {
-            var result = measureString(text, kNoMaxWidth);
-            return new Vector2(result.X, result.Y);
-        }
+			return text;
+		}
 
-        public Vector2 measureString(StringBuilder text)
-        {
-            var result = measureString(text, kNoMaxWidth);
-            return new Vector2(result.X, result.Y);
-        }
+		public Vector2 MeasureString(string text)
+		{
+			var result = MeasureString(text, kNoMaxWidth);
+			return new Vector2(result.X, result.Y);
+		}
 
-        public Point measureString(string text, float maxWidth = kNoMaxWidth)
-        {
-            var source = new FontCharacterSource(text);
-            return measureString(ref source, maxWidth);
-        }
+		public Vector2 MeasureString(StringBuilder text)
+		{
+			var result = MeasureString(text, kNoMaxWidth);
+			return new Vector2(result.X, result.Y);
+		}
 
-        public Point measureString(StringBuilder text, float maxWidth = kNoMaxWidth)
-        {
-            var source = new FontCharacterSource(text);
-            return measureString(ref source, maxWidth);
-        }
+		public Point MeasureString(string text, float maxWidth = kNoMaxWidth)
+		{
+			var source = new FontCharacterSource(text);
+			return MeasureString(ref source, maxWidth);
+		}
 
-        /// <summary>
-        /// Provides the size, in pixels, of the specified text when drawn with this font, automatically wrapping to keep within the specified with.
-        /// </summary>
-        /// <param name="text">The text to measure.</param>
-        /// <param name="maxWidth">The maximum width.</param>
-        /// <returns>
-        /// The <see cref="Size"/>, in pixels, of <paramref name="text"/> drawn with this font.
-        /// </returns>
-        /// <remarks>The MeasureString method uses the <paramref name="maxWidth"/> parameter to automatically wrap when determining text size.</remarks>
-        public Point measureString(ref FontCharacterSource text, float maxWidth = kNoMaxWidth)
-        {
-            if (text.Length == 0)
-                return Point.Zero;
+		public Point MeasureString(StringBuilder text, float maxWidth = kNoMaxWidth)
+		{
+			var source = new FontCharacterSource(text);
+			return MeasureString(ref source, maxWidth);
+		}
 
-            var length = text.Length;
-            var previousCharacter = ' ';
-            var currentLineWidth = 0;
-            var currentLineHeight = lineHeight;
-            var blockWidth = 0;
-            var blockHeight = 0;
-            var lineHeights = new List<int>();
+		/// <summary>
+		/// Provides the size, in pixels, of the specified text when drawn with this font, automatically wrapping to keep within the specified with.
+		/// </summary>
+		/// <param name="text">The text to measure.</param>
+		/// <param name="maxWidth">The maximum width.</param>
+		/// <returns>
+		/// The <see cref="Size"/>, in pixels, of <paramref name="text"/> drawn with this font.
+		/// </returns>
+		/// <remarks>The MeasureString method uses the <paramref name="maxWidth"/> parameter to automatically wrap when determining text size.</remarks>
+		public Point MeasureString(ref FontCharacterSource text, float maxWidth = kNoMaxWidth)
+		{
+			if (text.Length == 0)
+				return Point.Zero;
 
-            for (var i = 0; i < length; i++)
-            {
-                var character = text[i];
-                if (character == '\n' || character == '\r')
-                {
-                    if (character == '\n' || i + 1 == length || text[i + 1] != '\n')
-                    {
-                        lineHeights.Add(currentLineHeight);
-                        blockWidth = Math.Max(blockWidth, currentLineWidth);
-                        currentLineWidth = 0;
-                        currentLineHeight = lineHeight;
-                    }
-                }
-                else
-                {
-                    var data = this[character];
-                    var width = data.xAdvance + GetKerning(previousCharacter, character) + spacing.X;
-                    if (maxWidth != kNoMaxWidth && currentLineWidth + width >= maxWidth)
-                    {
-                        lineHeights.Add(currentLineHeight);
-                        blockWidth = Math.Max(blockWidth, currentLineWidth);
-                        currentLineWidth = 0;
-                        currentLineHeight = lineHeight;
-                    }
+			var length = text.Length;
+			var previousCharacter = ' ';
+			var currentLineWidth = 0;
+			var currentLineHeight = LineHeight;
+			var blockWidth = 0;
+			var blockHeight = 0;
+			var lineHeights = new List<int>();
 
-                    currentLineWidth += width;
-                    currentLineHeight = Math.Max(currentLineHeight, data.bounds.Height + data.offset.Y);
-                    previousCharacter = character;
-                }
-            }
+			for (var i = 0; i < length; i++)
+			{
+				var character = text[i];
+				if (character == '\n' || character == '\r')
+				{
+					if (character == '\n' || i + 1 == length || text[i + 1] != '\n')
+					{
+						lineHeights.Add(currentLineHeight);
+						blockWidth = Math.Max(blockWidth, currentLineWidth);
+						currentLineWidth = 0;
+						currentLineHeight = LineHeight;
+					}
+				}
+				else
+				{
+					var data = this[character];
+					var width = data.XAdvance + GetKerning(previousCharacter, character) + Spacing.X;
+					if (maxWidth != kNoMaxWidth && currentLineWidth + width >= maxWidth)
+					{
+						lineHeights.Add(currentLineHeight);
+						blockWidth = Math.Max(blockWidth, currentLineWidth);
+						currentLineWidth = 0;
+						currentLineHeight = LineHeight;
+					}
 
-            // finish off the current line if required
-            if (currentLineHeight != 0)
-                lineHeights.Add(currentLineHeight);
+					currentLineWidth += width;
+					currentLineHeight = Math.Max(currentLineHeight, data.Bounds.Height + data.Offset.Y);
+					previousCharacter = character;
+				}
+			}
 
-			for( var i = 0; i < lineHeights.Count; i++ )
+			// finish off the current line if required
+			if (currentLineHeight != 0)
+				lineHeights.Add(currentLineHeight);
+
+			for (var i = 0; i < lineHeights.Count; i++)
 			{
 				// reduce any lines other than the last back to the base
-				if( i < lineHeights.Count - 1 )
-					lineHeights[i] = lineHeight;
+				if (i < lineHeights.Count - 1)
+					lineHeights[i] = LineHeight;
 
 				// add height of each line to the overall block height
 				blockHeight += lineHeights[i];
 			}
 
 			return new Point(Math.Max(currentLineWidth, blockWidth), blockHeight);
-        }
+		}
 
-        ~BitmapFont() => Dispose();
+		~BitmapFont() => Dispose();
 
-        public void Dispose()
-        {
-            if (textures == null)
-                return;
+		public void Dispose()
+		{
+			if (Textures == null)
+				return;
 
-            foreach (var tex in textures)
-                tex.Dispose();
-            textures = null;
-        }
+			foreach (var tex in Textures)
+				tex.Dispose();
+			Textures = null;
+		}
 
-        public BitmapFontEnumerator GetGlyphs(string text)
-        {
-            var source = new FontCharacterSource(text);
-            return GetGlyphs(ref source);
-        }
+		public BitmapFontEnumerator GetGlyphs(string text)
+		{
+			var source = new FontCharacterSource(text);
+			return GetGlyphs(ref source);
+		}
 
-        public BitmapFontEnumerator GetGlyphs(StringBuilder text)
-        {
-            var source = new FontCharacterSource(text);
-            return GetGlyphs(ref source);
-        }
+		public BitmapFontEnumerator GetGlyphs(StringBuilder text)
+		{
+			var source = new FontCharacterSource(text);
+			return GetGlyphs(ref source);
+		}
 
-        public BitmapFontEnumerator GetGlyphs(ref FontCharacterSource text) => new BitmapFontEnumerator(this, ref text);
-    }
+		public BitmapFontEnumerator GetGlyphs(ref FontCharacterSource text) => new BitmapFontEnumerator(this, ref text);
+	}
 }

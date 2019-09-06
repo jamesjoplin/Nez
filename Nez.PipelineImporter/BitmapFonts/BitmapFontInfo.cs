@@ -10,40 +10,28 @@ namespace Nez.BitmapFontImporter
 	// ---- Credits to http://www.angelcode.com/ -----------------
 	public class BitmapFontInfo
 	{
-		[XmlAttribute( "face" )]
-		public string face;
+		[XmlAttribute("face")] public string Face;
 
-		[XmlAttribute( "size" )]
-		public int size;
-		
-		[XmlAttribute( "bold" )]
-		public int bold;
-		
-		[XmlAttribute( "italic" )]
-		public int italic;
-		
-		[XmlAttribute( "charset" )]
-		public string charSet;
-		
-		[XmlAttribute( "unicode" )]
-		public string unicode;
-		
-		[XmlAttribute( "stretchH" )]
-		public int stretchHeight;
-		
-		[XmlAttribute( "smooth" )]
-		public int smooth;
+		[XmlAttribute("size")] public int Size;
 
-		[XmlAttribute( "aa" )]
-		public int superSampling;
+		[XmlAttribute("bold")] public int Bold;
 
-		[XmlAttribute( "padding" )]
-		public string padding;
+		[XmlAttribute("italic")] public int Italic;
 
-		[XmlAttribute( "spacing" )]
-		public string spacing;
-		
-		[XmlAttribute( "outline" )]
-		public int outLine;
+		[XmlAttribute("charset")] public string CharSet;
+
+		[XmlAttribute("unicode")] public string Unicode;
+
+		[XmlAttribute("stretchH")] public int StretchHeight;
+
+		[XmlAttribute("smooth")] public int Smooth;
+
+		[XmlAttribute("aa")] public int SuperSampling;
+
+		[XmlAttribute("padding")] public string Padding;
+
+		[XmlAttribute("spacing")] public string Spacing;
+
+		[XmlAttribute("outline")] public int OutLine;
 	}
 }

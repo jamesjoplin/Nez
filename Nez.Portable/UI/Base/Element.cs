@@ -13,7 +13,10 @@ namespace Nez.UI
 		/// true if the widget's layout has been {@link #invalidate() invalidated}.
 		/// </summary>
 		/// <value><c>true</c> if needs layout; otherwise, <c>false</c>.</value>
-		public bool needsLayout { get { return _needsLayout; } }
+		public bool NeedsLayout
+		{
+			get { return _needsLayout; }
+		}
 
 		internal float x, y;
 		internal float width, height;
@@ -35,24 +38,24 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="graphics">Graphics.</param>
 		/// <param name="parentAlpha">Parent alpha.</param>
-		public virtual void draw( Graphics graphics, float parentAlpha )
+		public virtual void Draw(Graphics graphics, float parentAlpha)
 		{
-			validate();
+			Validate();
 		}
 
 
-		protected virtual void sizeChanged()
+		protected virtual void SizeChanged()
 		{
-			invalidate();
+			Invalidate();
 		}
 
 
-		protected virtual void positionChanged()
+		protected virtual void PositionChanged()
 		{
 		}
 
 
-		protected virtual void rotationChanged()
+		protected virtual void RotationChanged()
 		{
 		}
 
@@ -63,7 +66,7 @@ namespace Nez.UI
 		/// Returns the stage that this element is currently in, or null if not in a stage.
 		/// </summary>
 		/// <returns>The stage.</returns>
-		public Stage getStage()
+		public Stage GetStage()
 		{
 			return stage;
 		}
@@ -74,7 +77,7 @@ namespace Nez.UI
 		/// stage May be null if the element or any parent is no longer in a stage
 		/// </summary>
 		/// <param name="stage">Stage.</param>
-		internal virtual void setStage( Stage stage )
+		internal virtual void SetStage(Stage stage)
 		{
 			this.stage = stage;
 		}
@@ -84,7 +87,7 @@ namespace Nez.UI
 		/// Returns true if the element's parent is not null
 		/// </summary>
 		/// <returns><c>true</c>, if parent was hased, <c>false</c> otherwise.</returns>
-		public bool hasParent()
+		public bool HasParent()
 		{
 			return parent != null;
 		}
@@ -94,7 +97,7 @@ namespace Nez.UI
 		/// Returns the parent element, or null if not in a group
 		/// </summary>
 		/// <returns>The parent.</returns>
-		public Group getParent()
+		public Group GetParent()
 		{
 			return parent;
 		}
@@ -104,7 +107,7 @@ namespace Nez.UI
 		/// Called by the framework when an element is added to or removed from a group.
 		/// </summary>
 		/// <param name="parent">parent May be null if the element has been removed from the parent</param>
-		internal void setParent( Group parent )
+		internal void SetParent(Group parent)
 		{
 			this.parent = parent;
 		}
@@ -114,13 +117,13 @@ namespace Nez.UI
 		/// Returns true if input events are processed by this element.
 		/// </summary>
 		/// <returns>The touchable.</returns>
-		public bool isTouchable()
+		public bool IsTouchable()
 		{
 			return touchable == Touchable.Enabled;
 		}
 
 
-		public Touchable getTouchable()
+		public Touchable GetTouchable()
 		{
 			return touchable;
 		}
@@ -130,19 +133,19 @@ namespace Nez.UI
 		/// Determines how touch events are distributed to this element. Default is {@link Touchable#enabled}.
 		/// </summary>
 		/// <param name="touchable">Touchable.</param>
-		public void setTouchable( Touchable touchable )
+		public void SetTouchable(Touchable touchable)
 		{
 			this.touchable = touchable;
 		}
 
 
-		public void setIsVisible( bool visible )
+		public void SetIsVisible(bool visible)
 		{
 			_visible = visible;
 		}
 
 
-		public bool isVisible()
+		public bool IsVisible()
 		{
 			return _visible;
 		}
@@ -152,7 +155,7 @@ namespace Nez.UI
 		/// If false, the element will not be drawn and will not receive touch events. Default is true.
 		/// </summary>
 		/// <param name="visible">Visible.</param>
-		public void setVisible( bool visible )
+		public void SetVisible(bool visible)
 		{
 			this._visible = visible;
 		}
@@ -162,7 +165,7 @@ namespace Nez.UI
 		/// Returns the X position of the element's left edge
 		/// </summary>
 		/// <returns>The x.</returns>
-		public float getX()
+		public float GetX()
 		{
 			return x;
 		}
@@ -173,24 +176,25 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The x.</returns>
 		/// <param name="alignment">Alignment.</param>
-		public float getX( int alignment )
+		public float GetX(int alignment)
 		{
 			float x = this.x;
-			if( ( alignment & AlignInternal.right ) != 0 )
+			if ((alignment & AlignInternal.Right) != 0)
 				x += width;
-			else if( ( alignment & AlignInternal.left ) == 0 )
+			else if ((alignment & AlignInternal.Left) == 0)
 				x += width / 2;
 			return x;
 		}
 
 
-		public Element setX( float x )
+		public Element SetX(float x)
 		{
-			if( this.x != x )
+			if (this.x != x)
 			{
 				this.x = x;
-				positionChanged();
+				PositionChanged();
 			}
+
 			return this;
 		}
 
@@ -199,7 +203,7 @@ namespace Nez.UI
 		/// Returns the Y position of the element's bottom edge
 		/// </summary>
 		/// <returns>The y.</returns>
-		public float getY()
+		public float GetY()
 		{
 			return y;
 		}
@@ -210,24 +214,25 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The y.</returns>
 		/// <param name="alignment">Alignment.</param>
-		public float getY( int alignment )
+		public float GetY(int alignment)
 		{
 			float y = this.y;
-			if( ( alignment & AlignInternal.bottom ) != 0 )
+			if ((alignment & AlignInternal.Bottom) != 0)
 				y += height;
-			else if( ( alignment & AlignInternal.top ) == 0 )
+			else if ((alignment & AlignInternal.Top) == 0)
 				y += height / 2;
 			return y;
 		}
 
 
-		public Element setY( float y )
+		public Element SetY(float y)
 		{
-			if( this.y != y )
+			if (this.y != y)
 			{
 				this.y = y;
-				positionChanged();
+				PositionChanged();
 			}
+
 			return this;
 		}
 
@@ -237,14 +242,15 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
-		public Element setPosition( float x, float y )
+		public Element SetPosition(float x, float y)
 		{
-			if( this.x != x || this.y != y )
+			if (this.x != x || this.y != y)
 			{
 				this.x = x;
 				this.y = y;
-				positionChanged();
+				PositionChanged();
 			}
+
 			return this;
 		}
 
@@ -255,23 +261,23 @@ namespace Nez.UI
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
 		/// <param name="alignment">Alignment.</param>
-		public void setPosition( float x, float y, int alignment )
+		public void SetPosition(float x, float y, int alignment)
 		{
-			if( ( alignment & AlignInternal.right ) != 0 )
+			if ((alignment & AlignInternal.Right) != 0)
 				x -= width;
-			else if( ( alignment & AlignInternal.left ) == 0 ) //
+			else if ((alignment & AlignInternal.Left) == 0) //
 				x -= width / 2;
 
-			if( ( alignment & AlignInternal.top ) != 0 )
+			if ((alignment & AlignInternal.Top) != 0)
 				y -= height;
-			else if( ( alignment & AlignInternal.bottom ) == 0 ) //
+			else if ((alignment & AlignInternal.Bottom) == 0) //
 				y -= height / 2;
 
-			if( this.x != x || this.y != y )
+			if (this.x != x || this.y != y)
 			{
 				this.x = x;
 				this.y = y;
-				positionChanged();
+				PositionChanged();
 			}
 		}
 
@@ -281,57 +287,57 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
-		public void moveBy( float x, float y )
+		public void MoveBy(float x, float y)
 		{
-			if( x != 0 || y != 0 )
+			if (x != 0 || y != 0)
 			{
 				this.x += x;
 				this.y += y;
-				positionChanged();
+				PositionChanged();
 			}
 		}
 
 
-		public float getWidth()
+		public float GetWidth()
 		{
 			return width;
 		}
 
 
-		public void setWidth( float width )
+		public void SetWidth(float width)
 		{
-			if( this.width != width )
+			if (this.width != width)
 			{
 				this.width = width;
-				sizeChanged();
+				SizeChanged();
 			}
 		}
 
 
-		public float getHeight()
+		public float GetHeight()
 		{
 			return height;
 		}
 
 
-		public void setHeight( float height )
+		public void SetHeight(float height)
 		{
-			if( this.height != height )
+			if (this.height != height)
 			{
 				this.height = height;
-				sizeChanged();
+				SizeChanged();
 			}
 		}
 
 
-		public void setSize( float width, float height )
+		public void SetSize(float width, float height)
 		{
-			if( this.width == width && this.height == height )
+			if (this.width == width && this.height == height)
 				return;
 
 			this.width = width;
 			this.height = height;
-			sizeChanged();
+			SizeChanged();
 		}
 
 
@@ -339,7 +345,7 @@ namespace Nez.UI
 		/// Returns y plus height
 		/// </summary>
 		/// <returns>The top.</returns>
-		public float getBottom()
+		public float GetBottom()
 		{
 			return y + height;
 		}
@@ -349,7 +355,7 @@ namespace Nez.UI
 		/// Returns x plus width
 		/// </summary>
 		/// <returns>The right.</returns>
-		public float getRight()
+		public float GetRight()
 		{
 			return x + width;
 		}
@@ -362,43 +368,43 @@ namespace Nez.UI
 		/// <param name="y">The y coordinate.</param>
 		/// <param name="width">Width.</param>
 		/// <param name="height">Height.</param>
-		public void setBounds( float x, float y, float width, float height )
+		public void SetBounds(float x, float y, float width, float height)
 		{
-			if( this.x != x || this.y != y )
+			if (this.x != x || this.y != y)
 			{
 				this.x = x;
 				this.y = y;
-				positionChanged();
+				PositionChanged();
 			}
 
-			if( this.width != width || this.height != height )
+			if (this.width != width || this.height != height)
 			{
 				this.width = width;
 				this.height = height;
-				sizeChanged();
+				SizeChanged();
 			}
 		}
 
 
-		public float getOriginX()
+		public float GetOriginX()
 		{
 			return originX;
 		}
 
 
-		public void setOriginX( float originX )
+		public void SetOriginX(float originX)
 		{
 			this.originX = originX;
 		}
 
 
-		public float getOriginY()
+		public float GetOriginY()
 		{
 			return originY;
 		}
 
 
-		public void setOriginY( float originY )
+		public void SetOriginY(float originY)
 		{
 			this.originY = originY;
 		}
@@ -409,7 +415,7 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="originX">Origin x.</param>
 		/// <param name="originY">Origin y.</param>
-		public void setOrigin( float originX, float originY )
+		public void SetOrigin(float originX, float originY)
 		{
 			this.originX = originX;
 			this.originY = originY;
@@ -420,43 +426,43 @@ namespace Nez.UI
 		/// Sets the origin position to the specified {@link Align alignment}.
 		/// </summary>
 		/// <param name="alignment">Alignment.</param>
-		public void setOrigin( int alignment )
+		public void SetOrigin(int alignment)
 		{
-			if( ( alignment & AlignInternal.left ) != 0 )
+			if ((alignment & AlignInternal.Left) != 0)
 				originX = 0;
-			else if( ( alignment & AlignInternal.right ) != 0 )
+			else if ((alignment & AlignInternal.Right) != 0)
 				originX = width;
 			else
 				originX = width / 2;
 
-			if( ( alignment & AlignInternal.top ) != 0 )
+			if ((alignment & AlignInternal.Top) != 0)
 				originY = 0;
-			else if( ( alignment & AlignInternal.bottom ) != 0 )
+			else if ((alignment & AlignInternal.Bottom) != 0)
 				originY = height;
 			else
 				originY = height / 2;
 		}
 
 
-		public float getScaleX()
+		public float GetScaleX()
 		{
 			return scaleX;
 		}
 
 
-		public void setScaleX( float scaleX )
+		public void SetScaleX(float scaleX)
 		{
 			this.scaleX = scaleX;
 		}
 
 
-		public float getScaleY()
+		public float GetScaleY()
 		{
 			return scaleY;
 		}
 
 
-		public void setScaleY( float scaleY )
+		public void SetScaleY(float scaleY)
 		{
 			this.scaleY = scaleY;
 		}
@@ -466,7 +472,7 @@ namespace Nez.UI
 		/// Sets the scale for both X and Y
 		/// </summary>
 		/// <param name="scaleXY">Scale X.</param>
-		public void setScale( float scaleXY )
+		public void SetScale(float scaleXY)
 		{
 			this.scaleX = scaleXY;
 			this.scaleY = scaleXY;
@@ -478,7 +484,7 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="scaleX">Scale x.</param>
 		/// <param name="scaleY">Scale y.</param>
-		public void setScale( float scaleX, float scaleY )
+		public void SetScale(float scaleX, float scaleY)
 		{
 			this.scaleX = scaleX;
 			this.scaleY = scaleY;
@@ -489,7 +495,7 @@ namespace Nez.UI
 		/// Adds the specified scale to the current scale
 		/// </summary>
 		/// <param name="scale">Scale.</param>
-		public void scaleBy( float scale )
+		public void ScaleBy(float scale)
 		{
 			scaleX += scale;
 			scaleY += scale;
@@ -501,25 +507,25 @@ namespace Nez.UI
 		/// </summary>
 		/// <param name="scaleX">Scale x.</param>
 		/// <param name="scaleY">Scale y.</param>
-		public void scaleBy( float scaleX, float scaleY )
+		public void ScaleBy(float scaleX, float scaleY)
 		{
 			this.scaleX += scaleX;
 			this.scaleY += scaleY;
 		}
 
 
-		public float getRotation()
+		public float GetRotation()
 		{
 			return rotation;
 		}
 
 
-		public void setRotation( float degrees )
+		public void SetRotation(float degrees)
 		{
-			if( this.rotation != degrees )
+			if (this.rotation != degrees)
 			{
 				this.rotation = degrees;
-				rotationChanged();
+				RotationChanged();
 			}
 		}
 
@@ -528,17 +534,17 @@ namespace Nez.UI
 		/// Adds the specified rotation to the current rotation
 		/// </summary>
 		/// <param name="amountInDegrees">Amount in degrees.</param>
-		public void rotateBy( float amountInDegrees )
+		public void RotateBy(float amountInDegrees)
 		{
-			if( amountInDegrees != 0 )
+			if (amountInDegrees != 0)
 			{
 				rotation += amountInDegrees;
-				rotationChanged();
+				RotationChanged();
 			}
 		}
 
 
-		public void setColor( Color color )
+		public void SetColor(Color color)
 		{
 			this.color = color;
 		}
@@ -548,7 +554,7 @@ namespace Nez.UI
 		/// Returns the color the element will be tinted when drawn
 		/// </summary>
 		/// <returns>The color.</returns>
-		public Color getColor()
+		public Color GetColor()
 		{
 			return color;
 		}
@@ -557,18 +563,18 @@ namespace Nez.UI
 		/// <summary>
 		/// Changes the z-order for this element so it is in front of all siblings
 		/// </summary>
-		public void toFront()
+		public void ToFront()
 		{
-			setZIndex( int.MaxValue );
+			SetZIndex(int.MaxValue);
 		}
 
 
 		/// <summary>
 		/// Changes the z-order for this element so it is in back of all siblings
 		/// </summary>
-		public void toBack()
+		public void ToBack()
 		{
-			setZIndex( 0 );
+			SetZIndex(0);
 		}
 
 
@@ -578,24 +584,24 @@ namespace Nez.UI
 		/// Setting a z-index less than zero is invalid.
 		/// </summary>
 		/// <param name="index">Index.</param>
-		public void setZIndex( int index )
+		public void SetZIndex(int index)
 		{
 			var parent = this.parent;
-			if( parent == null )
+			if (parent == null)
 				return;
 
 			var children = parent.children;
-			if( children.Count == 1 )
+			if (children.Count == 1)
 				return;
 
-			index = Math.Min( index, children.Count - 1 );
-			if( index == children.IndexOf( this ) )
+			index = Math.Min(index, children.Count - 1);
+			if (index == children.IndexOf(this))
 				return;
 
-			if( !children.Remove( this ) )
+			if (!children.Remove(this))
 				return;
 
-			children.Insert( index, this );
+			children.Insert(index, this);
 		}
 
 
@@ -603,9 +609,9 @@ namespace Nez.UI
 		/// Calls clipBegin(Batcher, float, float, float, float) to clip this actor's bounds
 		/// </summary>
 		/// <returns>The begin.</returns>
-		public bool clipBegin( Batcher batcher )
+		public bool ClipBegin(Batcher batcher)
 		{
-			return clipBegin( batcher, x, y, width, height );
+			return ClipBegin(batcher, x, y, width, height);
 		}
 
 
@@ -614,16 +620,17 @@ namespace Nez.UI
 		/// transform matrix and the stage's camera must not have rotational components. Calling this method must be followed by a call
 		/// to clipEnd() if true is returned.
 		/// </summary>
-		public bool clipBegin( Batcher batcher, float x, float y, float width, float height )
+		public bool ClipBegin(Batcher batcher, float x, float y, float width, float height)
 		{
-			if( width <= 0 || height <= 0 )
+			if (width <= 0 || height <= 0)
 				return false;
 
-			var tableBounds = RectangleExt.fromFloats( x, y, width, height );
-			var scissorBounds = ScissorStack.calculateScissors( stage?.entity?.scene?.camera, batcher.transformMatrix, tableBounds );
-			if( ScissorStack.pushScissors( scissorBounds ) )
+			var tableBounds = RectangleExt.FromFloats(x, y, width, height);
+			var scissorBounds =
+				ScissorStack.CalculateScissors(stage?.Entity?.Scene?.Camera, batcher.TransformMatrix, tableBounds);
+			if (ScissorStack.PushScissors(scissorBounds))
 			{
-				batcher.enableScissorTest( true );
+				batcher.EnableScissorTest(true);
 				return true;
 			}
 
@@ -635,10 +642,10 @@ namespace Nez.UI
 		/// Ends clipping begun by clipBegin(Batcher, float, float, float, float)
 		/// </summary>
 		/// <returns>The end.</returns>
-		public void clipEnd( Batcher batcher )
+		public void ClipEnd(Batcher batcher)
 		{
-			batcher.enableScissorTest( false );
-			ScissorStack.popScissors();
+			batcher.EnableScissorTest(false);
+			ScissorStack.PopScissors();
 		}
 
 
@@ -646,15 +653,15 @@ namespace Nez.UI
 		/// If true, {@link #debugDraw} will be called for this element
 		/// </summary>
 		/// <param name="enabled">Enabled.</param>
-		public virtual void setDebug( bool enabled )
+		public virtual void SetDebug(bool enabled)
 		{
 			_debug = enabled;
-			if( enabled )
-				Stage.debug = true;
+			if (enabled)
+				Stage.Debug = true;
 		}
 
 
-		public bool getDebug()
+		public bool GetDebug()
 		{
 			return _debug;
 		}
@@ -669,11 +676,12 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The to local coordinates.</returns>
 		/// <param name="screenCoords">Screen coords.</param>
-		public Vector2 screenToLocalCoordinates( Vector2 screenCoords )
+		public Vector2 ScreenToLocalCoordinates(Vector2 screenCoords)
 		{
-			if( stage == null )
+			if (stage == null)
 				return screenCoords;
-			return stageToLocalCoordinates( stage.screenToStageCoordinates( screenCoords ) );
+
+			return StageToLocalCoordinates(stage.ScreenToStageCoordinates(screenCoords));
 		}
 
 
@@ -682,12 +690,12 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The to local coordinates.</returns>
 		/// <param name="stageCoords">Stage coords.</param>
-		public Vector2 stageToLocalCoordinates( Vector2 stageCoords )
+		public Vector2 StageToLocalCoordinates(Vector2 stageCoords)
 		{
-			if( parent != null )
-				stageCoords = parent.stageToLocalCoordinates( stageCoords );
+			if (parent != null)
+				stageCoords = parent.StageToLocalCoordinates(stageCoords);
 
-			stageCoords = parentToLocalCoordinates( stageCoords );
+			stageCoords = ParentToLocalCoordinates(stageCoords);
 			return stageCoords;
 		}
 
@@ -697,9 +705,9 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The to stage coordinates.</returns>
 		/// <param name="localCoords">Local coords.</param>
-		public Vector2 localToStageCoordinates( Vector2 localCoords )
+		public Vector2 LocalToStageCoordinates(Vector2 localCoords)
 		{
-			return localToAscendantCoordinates( null, localCoords );
+			return LocalToAscendantCoordinates(null, localCoords);
 		}
 
 
@@ -709,16 +717,17 @@ namespace Nez.UI
 		/// <returns>The to ascendant coordinates.</returns>
 		/// <param name="ascendant">Ascendant.</param>
 		/// <param name="localCoords">Local coords.</param>
-		public Vector2 localToAscendantCoordinates( Element ascendant, Vector2 localCoords )
+		public Vector2 LocalToAscendantCoordinates(Element ascendant, Vector2 localCoords)
 		{
 			Element element = this;
-			while( element != null )
+			while (element != null)
 			{
-				localCoords = element.localToParentCoordinates( localCoords );
+				localCoords = element.LocalToParentCoordinates(localCoords);
 				element = element.parent;
-				if( element == ascendant )
+				if (element == ascendant)
 					break;
 			}
+
 			return localCoords;
 		}
 
@@ -728,29 +737,29 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The to local coordinates.</returns>
 		/// <param name="parentCoords">Parent coords.</param>
-		public Vector2 parentToLocalCoordinates( Vector2 parentCoords )
+		public Vector2 ParentToLocalCoordinates(Vector2 parentCoords)
 		{
-			if( rotation == 0 )
+			if (rotation == 0)
 			{
-				if( scaleX == 1 && scaleY == 1 )
+				if (scaleX == 1 && scaleY == 1)
 				{
 					parentCoords.X -= x;
 					parentCoords.Y -= y;
 				}
 				else
 				{
-					parentCoords.X = ( parentCoords.X - x - originX ) / scaleX + originX;
-					parentCoords.Y = ( parentCoords.Y - y - originY ) / scaleY + originY;
+					parentCoords.X = (parentCoords.X - x - originX) / scaleX + originX;
+					parentCoords.Y = (parentCoords.Y - y - originY) / scaleY + originY;
 				}
 			}
 			else
 			{
-				var cos = Mathf.cos( MathHelper.ToRadians( rotation ) );
-				var sin = Mathf.sin( MathHelper.ToRadians( rotation ) );
+				var cos = Mathf.Cos(MathHelper.ToRadians(rotation));
+				var sin = Mathf.Sin(MathHelper.ToRadians(rotation));
 				var tox = parentCoords.X - x - originX;
 				var toy = parentCoords.Y - y - originY;
-				parentCoords.X = ( tox * cos + toy * sin ) / scaleX + originX;
-				parentCoords.Y = ( tox * -sin + toy * cos ) / scaleY + originY;
+				parentCoords.X = (tox * cos + toy * sin) / scaleX + originX;
+				parentCoords.Y = (tox * -sin + toy * cos) / scaleY + originY;
 			}
 
 			return parentCoords;
@@ -762,32 +771,32 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The to parent coordinates.</returns>
 		/// <param name="localCoords">Local coords.</param>
-		public Vector2 localToParentCoordinates( Vector2 localCoords )
+		public Vector2 LocalToParentCoordinates(Vector2 localCoords)
 		{
 			var rotation = -this.rotation;
 
-			if( rotation == 0 )
+			if (rotation == 0)
 			{
-				if( scaleX == 1 && scaleY == 1 )
+				if (scaleX == 1 && scaleY == 1)
 				{
 					localCoords.X += x;
 					localCoords.Y += y;
 				}
 				else
 				{
-					localCoords.X = ( localCoords.X - originX ) * scaleX + originX + x;
-					localCoords.Y = ( localCoords.Y - originY ) * scaleY + originY + y;
+					localCoords.X = (localCoords.X - originX) * scaleX + originX + x;
+					localCoords.Y = (localCoords.Y - originY) * scaleY + originY + y;
 				}
 			}
 			else
 			{
-				var cos = Mathf.cos( MathHelper.ToRadians( rotation ) );
-				var sin = Mathf.sin( MathHelper.ToRadians( rotation ) );
+				var cos = Mathf.Cos(MathHelper.ToRadians(rotation));
+				var sin = Mathf.Sin(MathHelper.ToRadians(rotation));
 
-				var tox = ( localCoords.X - originX ) * scaleX;
-				var toy = ( localCoords.Y - originY ) * scaleY;
-				localCoords.X = ( tox * cos + toy * sin ) + originX + x;
-				localCoords.Y = ( tox * -sin + toy * cos ) + originY + y;
+				var tox = (localCoords.X - originX) * scaleX;
+				var toy = (localCoords.Y - originY) * scaleY;
+				localCoords.X = (tox * cos + toy * sin) + originX + x;
+				localCoords.Y = (tox * -sin + toy * cos) + originY + y;
 			}
 
 			return localCoords;
@@ -802,12 +811,12 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The outside bounds to point.</returns>
 		/// <param name="Point">Point.</param>
-		protected float distanceOutsideBoundsToPoint( Vector2 point )
+		protected float DistanceOutsideBoundsToPoint(Vector2 point)
 		{
-			var offsetX = Math.Max( -point.X, point.X - width );
-			var offsetY = Math.Max( -point.Y, point.Y - height );
+			var offsetX = Math.Max(-point.X, point.X - width);
+			var offsetY = Math.Max(-point.Y, point.Y - height);
 
-			return Math.Max( offsetX, offsetY );
+			return Math.Max(offsetX, offsetY);
 		}
 
 
@@ -815,10 +824,10 @@ namespace Nez.UI
 		/// Draws this element's debug lines
 		/// </summary>
 		/// <param name="graphics">Graphics.</param>
-		public virtual void debugRender( Graphics graphics )
+		public virtual void DebugRender(Graphics graphics)
 		{
-			if( _debug )
-				graphics.batcher.drawHollowRect( x, y, width, height, Color.Red );
+			if (_debug)
+				graphics.Batcher.DrawHollowRect(x, y, width, height, Color.Red);
 		}
 
 
@@ -826,26 +835,27 @@ namespace Nez.UI
 		/// returns true if this Element and all parent Elements are visible
 		/// </summary>
 		/// <returns><c>true</c>, if parents visible was ared, <c>false</c> otherwise.</returns>
-		bool areParentsVisible()
+		bool AreParentsVisible()
 		{
-			if( !_visible )
+			if (!_visible)
 				return false;
-			
-			if( parent != null )
-				return parent.areParentsVisible();
-			
+
+			if (parent != null)
+				return parent.AreParentsVisible();
+
 			return _visible;
 		}
 
 
-		public virtual Element hit( Vector2 point )
+		public virtual Element Hit(Vector2 point)
 		{
 			// if we are not Touchable or us or any parent is not visible bail out
-			if( touchable != Touchable.Enabled || !areParentsVisible() )
+			if (touchable != Touchable.Enabled || !AreParentsVisible())
 				return null;
 
-			if( point.X >= 0 && point.X < width && point.Y >= 0 && point.Y < height )
+			if (point.X >= 0 && point.X < width && point.Y >= 0 && point.Y < height)
 				return this;
+
 			return null;
 		}
 
@@ -853,130 +863,130 @@ namespace Nez.UI
 		/// <summary>
 		/// Removes this element from its parent, if it has a parent
 		/// </summary>
-		public bool remove()
+		public bool Remove()
 		{
-			if( parent != null )
-				return parent.removeElement( this );
+			if (parent != null)
+				return parent.RemoveElement(this);
+
 			return false;
 		}
 
 
 		#region ILayout
 
-		public bool fillParent { get; set; }
+		public bool FillParent { get; set; }
 
-		public virtual bool layoutEnabled
+		public virtual bool LayoutEnabled
 		{
 			get { return _layoutEnabled; }
 			set
 			{
-				if( _layoutEnabled != value )
+				if (_layoutEnabled != value)
 				{
 					_layoutEnabled = value;
 
-					if( _layoutEnabled )
-						invalidateHierarchy();
+					if (_layoutEnabled)
+						InvalidateHierarchy();
 				}
 			}
 		}
 
-		public virtual float minWidth
+		public virtual float MinWidth
 		{
-			get { return preferredWidth; }
+			get { return PreferredWidth; }
 		}
 
-		public virtual float minHeight
+		public virtual float MinHeight
 		{
-			get { return preferredHeight; }
+			get { return PreferredHeight; }
 		}
 
-		public virtual float preferredWidth
-		{
-			get { return 0; }
-		}
-
-		public virtual float preferredHeight
+		public virtual float PreferredWidth
 		{
 			get { return 0; }
 		}
 
-		public virtual float maxWidth
+		public virtual float PreferredHeight
 		{
 			get { return 0; }
 		}
 
-		public virtual float maxHeight
+		public virtual float MaxWidth
+		{
+			get { return 0; }
+		}
+
+		public virtual float MaxHeight
 		{
 			get { return 0; }
 		}
 
 
-		public virtual void layout()
-		{ }
+		public virtual void Layout()
+		{
+		}
 
 
-		public virtual void invalidate()
+		public virtual void Invalidate()
 		{
 			_needsLayout = true;
 		}
 
 
-		public virtual void invalidateHierarchy()
+		public virtual void InvalidateHierarchy()
 		{
-			if( !_layoutEnabled )
+			if (!_layoutEnabled)
 				return;
 
-			invalidate();
+			Invalidate();
 
-			if( parent is ILayout )
-				( (ILayout)parent ).invalidateHierarchy();
+			if (parent is ILayout)
+				((ILayout) parent).InvalidateHierarchy();
 		}
 
 
-		public void validate()
+		public void Validate()
 		{
-			if( !_layoutEnabled )
+			if (!_layoutEnabled)
 				return;
 
-			if( fillParent && parent != null )
+			if (FillParent && parent != null)
 			{
-				var stage = getStage();
+				var stage = GetStage();
 				float parentWidth, parentHeight;
 
-				if( stage != null && parent == stage.getRoot() )
+				if (stage != null && parent == stage.GetRoot())
 				{
-					parentWidth = stage.getWidth();
-					parentHeight = stage.getHeight();
+					parentWidth = stage.GetWidth();
+					parentHeight = stage.GetHeight();
 				}
 				else
 				{
-					parentWidth = parent.getWidth();
-					parentHeight = parent.getHeight();
+					parentWidth = parent.GetWidth();
+					parentHeight = parent.GetHeight();
 				}
 
-				if( width != parentWidth || height != parentHeight )
+				if (width != parentWidth || height != parentHeight)
 				{
-					setSize( parentWidth, parentHeight );
-					invalidate();
+					SetSize(parentWidth, parentHeight);
+					Invalidate();
 				}
 			}
 
-			if( !_needsLayout )
+			if (!_needsLayout)
 				return;
 
 			_needsLayout = false;
-			layout();
+			Layout();
 		}
 
 
-		public virtual void pack()
+		public virtual void Pack()
 		{
-			setSize( preferredWidth, preferredHeight );
-			validate();
+			SetSize(PreferredWidth, PreferredHeight);
+			Validate();
 		}
 
 		#endregion
-
 	}
 }
-

@@ -10,34 +10,24 @@ namespace Nez.BitmapFontImporter
 	// ---- Credits to http://www.angelcode.com/ -----------------
 	public class BitmapFontChar
 	{
-		[XmlAttribute( "id" )]
-		public int id;
-		
-		[XmlAttribute( "x" )]
-		public int x;
-		
-		[XmlAttribute( "y" )]
-		public int y;
-		
-		[XmlAttribute( "width" )]
-		public int width;
-		
-		[XmlAttribute( "height" )]
-		public int height;
-		
-		[XmlAttribute( "xoffset" )]
-		public int xOffset;
-		
-		[XmlAttribute( "yoffset" )]
-		public int yOffset;
-		
-		[XmlAttribute( "xadvance" )]
-		public int xAdvance;
-		
-		[XmlAttribute( "page" )]
-		public int page;
-		
-		[XmlAttribute( "chnl" )]
-		public int channel;
+		[XmlAttribute("id")] public int Id;
+
+		[XmlAttribute("x")] public int X;
+
+		[XmlAttribute("y")] public int Y;
+
+		[XmlAttribute("width")] public int Width;
+
+		[XmlAttribute("height")] public int Height;
+
+		[XmlAttribute("xoffset")] public int XOffset;
+
+		[XmlAttribute("yoffset")] public int YOffset;
+
+		[XmlAttribute("xadvance")] public int XAdvance;
+
+		[XmlAttribute("page")] public int Page;
+
+		[XmlAttribute("chnl")] public int Channel;
 	}
 }

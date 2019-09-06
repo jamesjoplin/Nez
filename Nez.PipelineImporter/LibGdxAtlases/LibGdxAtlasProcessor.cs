@@ -4,15 +4,15 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Nez.LibGdxAtlases
 {
-	[ContentProcessor( DisplayName = "libGDX Atlas Processor" )]
+	[ContentProcessor(DisplayName = "libGDX Atlas Processor")]
 	public class LibGdxAtlasProcessor : ContentProcessor<LibGdxAtlasFile, LibGdxAtlasProcessorResult>
 	{
-		public static ContentBuildLogger logger;
+		public static ContentBuildLogger Logger;
 
-		public override LibGdxAtlasProcessorResult Process( LibGdxAtlasFile input, ContentProcessorContext context )
+		public override LibGdxAtlasProcessorResult Process(LibGdxAtlasFile input, ContentProcessorContext context)
 		{
-			logger = context.Logger;
-			return new LibGdxAtlasProcessorResult { data = input };
+			Logger = context.Logger;
+			return new LibGdxAtlasProcessorResult {Data = input};
 		}
 	}
 }

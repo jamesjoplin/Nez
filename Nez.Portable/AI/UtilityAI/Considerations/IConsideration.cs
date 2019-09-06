@@ -8,9 +8,8 @@ namespace Nez.AI.UtilityAI
 	/// </summary>
 	public interface IConsideration<T>
 	{
-		IAction<T> action { get; set; }
+		IAction<T> Action { get; set; }
 
-		float getScore( T context );
+		float GetScore(T context);
 	}
 }
-

@@ -10,13 +10,10 @@ namespace Nez.BitmapFontImporter
 	// ---- Credits to http://www.angelcode.com/ -----------------
 	public class BitmapFontKerning
 	{
-		[XmlAttribute( "first" )]
-		public int first;
-		
-		[XmlAttribute( "second" )]
-		public int second;
-		
-		[XmlAttribute( "amount" )]
-		public int amount;
+		[XmlAttribute("first")] public int First;
+
+		[XmlAttribute("second")] public int Second;
+
+		[XmlAttribute("amount")] public int Amount;
 	}
 }

@@ -10,23 +10,22 @@ namespace Nez.UI
 	/// </summary>
 	public class SubtextureDrawable : IDrawable
 	{
-		public Color? tintColor;
+		public Color? TintColor;
 
-		public SpriteEffects spriteEffects = SpriteEffects.None;
+		public SpriteEffects SpriteEffects = SpriteEffects.None;
 
 		/// <summary>
 		/// determines if the sprite should be rendered normally or flipped horizontally
 		/// </summary>
 		/// <value><c>true</c> if flip x; otherwise, <c>false</c>.</value>
-		public bool flipX
+		public bool FlipX
 		{
-			get
-			{
-				return ( spriteEffects & SpriteEffects.FlipHorizontally ) == SpriteEffects.FlipHorizontally;
-			}
+			get { return (SpriteEffects & SpriteEffects.FlipHorizontally) == SpriteEffects.FlipHorizontally; }
 			set
 			{
-				spriteEffects = value ? ( spriteEffects | SpriteEffects.FlipHorizontally ) : ( spriteEffects & ~SpriteEffects.FlipHorizontally );
+				SpriteEffects = value
+					? (SpriteEffects | SpriteEffects.FlipHorizontally)
+					: (SpriteEffects & ~SpriteEffects.FlipHorizontally);
 			}
 		}
 
@@ -34,68 +33,70 @@ namespace Nez.UI
 		/// determines if the sprite should be rendered normally or flipped vertically
 		/// </summary>
 		/// <value><c>true</c> if flip y; otherwise, <c>false</c>.</value>
-		public bool flipY
+		public bool FlipY
 		{
-			get
-			{
-				return ( spriteEffects & SpriteEffects.FlipVertically ) == SpriteEffects.FlipVertically;
-			}
+			get { return (SpriteEffects & SpriteEffects.FlipVertically) == SpriteEffects.FlipVertically; }
 			set
 			{
-				spriteEffects = value ? ( spriteEffects | SpriteEffects.FlipVertically ) : ( spriteEffects & ~SpriteEffects.FlipVertically );
+				SpriteEffects = value
+					? (SpriteEffects | SpriteEffects.FlipVertically)
+					: (SpriteEffects & ~SpriteEffects.FlipVertically);
 			}
 		}
 
-		public Subtexture subtexture
+		public Subtexture Subtexture
 		{
 			get { return _subtexture; }
 			set
 			{
 				_subtexture = value;
-				minWidth = _subtexture.sourceRect.Width;
-				minHeight = _subtexture.sourceRect.Height;
+				MinWidth = _subtexture.SourceRect.Width;
+				MinHeight = _subtexture.SourceRect.Height;
 			}
 		}
+
 		protected Subtexture _subtexture;
 
 
 		#region IDrawable implementation
 
-		public float leftWidth { get; set; }
-		public float rightWidth { get; set; }
-		public float topHeight { get; set; }
-		public float bottomHeight { get; set; }
-		public float minWidth { get; set; }
-		public float minHeight { get; set; }
+		public float LeftWidth { get; set; }
+		public float RightWidth { get; set; }
+		public float TopHeight { get; set; }
+		public float BottomHeight { get; set; }
+		public float MinWidth { get; set; }
+		public float MinHeight { get; set; }
 
 
-		public void setPadding( float top, float bottom, float left, float right )
+		public void SetPadding(float top, float bottom, float left, float right)
 		{
-			topHeight = top;
-			bottomHeight = bottom;
-			leftWidth = left;
-			rightWidth = right;
+			TopHeight = top;
+			BottomHeight = bottom;
+			LeftWidth = left;
+			RightWidth = right;
 		}
 
 		#endregion
 
 
-		public SubtextureDrawable( Subtexture subtexture )
+		public SubtextureDrawable(Subtexture subtexture)
 		{
-			this.subtexture = subtexture;
+			this.Subtexture = subtexture;
 		}
 
 
-		public SubtextureDrawable( Texture2D texture ) : this( new Subtexture( texture ) )
-		{ }
-
-
-		public virtual void draw( Graphics graphics, float x, float y, float width, float height, Color color )
+		public SubtextureDrawable(Texture2D texture) : this(new Subtexture(texture))
 		{
-			if( tintColor.HasValue )
-				color = color.multiply( tintColor.Value );
+		}
 
-			graphics.batcher.draw( _subtexture, new Rectangle( (int)x, (int)y, (int)width, (int)height ), _subtexture.sourceRect, color, spriteEffects );
+
+		public virtual void Draw(Graphics graphics, float x, float y, float width, float height, Color color)
+		{
+			if (TintColor.HasValue)
+				color = color.Multiply(TintColor.Value);
+
+			graphics.Batcher.Draw(_subtexture, new Rectangle((int) x, (int) y, (int) width, (int) height),
+				_subtexture.SourceRect, color, SpriteEffects);
 		}
 
 
@@ -104,19 +105,18 @@ namespace Nez.UI
 		/// </summary>
 		/// <returns>The tinted drawable.</returns>
 		/// <param name="tint">Tint.</param>
-		public SubtextureDrawable newTintedDrawable( Color tint )
+		public SubtextureDrawable NewTintedDrawable(Color tint)
 		{
-			return new SubtextureDrawable( _subtexture )
+			return new SubtextureDrawable(_subtexture)
 			{
-				leftWidth = leftWidth,
-				rightWidth = rightWidth,
-				topHeight = topHeight,
-				bottomHeight = bottomHeight,
-				minWidth = minWidth,
-				minHeight = minHeight,
-				tintColor = tint
+				LeftWidth = LeftWidth,
+				RightWidth = RightWidth,
+				TopHeight = TopHeight,
+				BottomHeight = BottomHeight,
+				MinWidth = MinWidth,
+				MinHeight = MinHeight,
+				TintColor = tint
 			};
 		}
 	}
 }
-

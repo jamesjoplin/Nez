@@ -19,7 +19,7 @@ namespace Nez.Sprites
 		/// </summary>
 		class SpriteTrailInstance
 		{
-			public Vector2 position;
+			public Vector2 Position;
 			Subtexture _subtexture;
 			float _fadeDuration;
 			float _fadeDelay;
@@ -35,9 +35,10 @@ namespace Nez.Sprites
 			float _layerDepth;
 
 
-			public void spawn( Vector2 position, Subtexture subtexture, float fadeDuration, float fadeDelay, Color initialColor, Color targetColor )
+			public void Spawn(Vector2 position, Subtexture subtexture, float fadeDuration, float fadeDelay,
+			                  Color initialColor, Color targetColor)
 			{
-				this.position = position;
+				this.Position = position;
 				_subtexture = subtexture;
 
 				_initialColor = initialColor;
@@ -50,7 +51,8 @@ namespace Nez.Sprites
 			}
 
 
-			public void setSpriteRenderOptions( float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects, float layerDepth )
+			public void SetSpriteRenderOptions(float rotation, Vector2 origin, Vector2 scale,
+			                                   SpriteEffects spriteEffects, float layerDepth)
 			{
 				_rotation = rotation;
 				_origin = origin;
@@ -63,17 +65,18 @@ namespace Nez.Sprites
 			/// <summary>
 			/// returns true when the fade out is complete
 			/// </summary>
-			[MethodImpl( MethodImplOptions.AggressiveInlining )]
-			public bool update()
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public bool Update()
 			{
-				_elapsedTime += Time.deltaTime;
+				_elapsedTime += Time.DeltaTime;
+
 				// fading block
-				if( _elapsedTime > _fadeDelay && _elapsedTime < _fadeDuration + _fadeDelay )
+				if (_elapsedTime > _fadeDelay && _elapsedTime < _fadeDuration + _fadeDelay)
 				{
-					var t = Mathf.map01( _elapsedTime, 0f, _fadeDelay + _fadeDuration );
-					ColorExt.lerp( ref _initialColor, ref _targetColor, out _renderColor, t );
+					var t = Mathf.Map01(_elapsedTime, 0f, _fadeDelay + _fadeDuration);
+					ColorExt.Lerp(ref _initialColor, ref _targetColor, out _renderColor, t);
 				}
-				else if( _elapsedTime >= _fadeDuration + _fadeDelay )
+				else if (_elapsedTime >= _fadeDuration + _fadeDelay)
 				{
 					return true;
 				}
@@ -82,50 +85,54 @@ namespace Nez.Sprites
 			}
 
 
-			[MethodImpl( MethodImplOptions.AggressiveInlining )]
-			public void render( Graphics graphics, Camera camera )
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public void Render(Graphics graphics, Camera camera)
 			{
-				graphics.batcher.draw( _subtexture, position, _renderColor, _rotation, _origin, _scale, _spriteEffects, _layerDepth );
+				graphics.Batcher.Draw(_subtexture, Position, _renderColor, _rotation, _origin, _scale, _spriteEffects,
+					_layerDepth);
 			}
 		}
 
 
-		public override RectangleF bounds { get { return _bounds; } }
+		public override RectangleF Bounds
+		{
+			get { return _bounds; }
+		}
 
-		public int maxSpriteInstances
+		public int MaxSpriteInstances
 		{
 			get { return _maxSpriteInstances; }
-			set { setMaxSpriteInstances( value ); }
+			set { SetMaxSpriteInstances(value); }
 		}
 
 		/// <summary>
 		/// how far does the Sprite have to move before a new instance is spawned
 		/// </summary>
-		public float minDistanceBetweenInstances = 30f;
+		public float MinDistanceBetweenInstances = 30f;
 
 		/// <summary>
 		/// total duration of the fade from initialColor to fadeToColor
 		/// </summary>
-		public float fadeDuration = 0.8f;
+		public float FadeDuration = 0.8f;
 
 		/// <summary>
 		/// delay before starting the color fade
 		/// </summary>
-		public float fadeDelay = 0.1f;
+		public float FadeDelay = 0.1f;
 
 		/// <summary>
 		/// initial color of the trail instances
 		/// </summary>
-		public Color initialColor = Color.White;
+		public Color InitialColor = Color.White;
 
 		/// <summary>
 		/// final color that will be lerped to over the course of fadeDuration
 		/// </summary>
-		public Color fadeToColor = Color.Transparent;
+		public Color FadeToColor = Color.Transparent;
 
 		int _maxSpriteInstances = 15;
 		Stack<SpriteTrailInstance> _availableSpriteTrailInstances = new Stack<SpriteTrailInstance>();
-		List<SpriteTrailInstance> _liveSpriteTrailInstances = new List<SpriteTrailInstance>( 5 );
+		List<SpriteTrailInstance> _liveSpriteTrailInstances = new List<SpriteTrailInstance>(5);
 		Vector2 _lastPosition;
 		Sprite _sprite;
 
@@ -141,9 +148,10 @@ namespace Nez.Sprites
 
 
 		public SpriteTrail()
-		{}
+		{
+		}
 
-		public SpriteTrail( Sprite sprite )
+		public SpriteTrail(Sprite sprite)
 		{
 			_sprite = sprite;
 		}
@@ -151,21 +159,21 @@ namespace Nez.Sprites
 
 		#region Fluent setters
 
-		public SpriteTrail setMaxSpriteInstances( int maxSpriteInstances )
+		public SpriteTrail SetMaxSpriteInstances(int maxSpriteInstances)
 		{
 			// if our new value is greater than our previous count instantiate the required SpriteTrailInstances
-			if( _availableSpriteTrailInstances.Count < maxSpriteInstances )
+			if (_availableSpriteTrailInstances.Count < maxSpriteInstances)
 			{
 				var newInstances = _availableSpriteTrailInstances.Count - maxSpriteInstances;
-				for( var i = 0; i < newInstances; i++ )
-					_availableSpriteTrailInstances.Push( new SpriteTrailInstance() );
+				for (var i = 0; i < newInstances; i++)
+					_availableSpriteTrailInstances.Push(new SpriteTrailInstance());
 			}
 
 			// if our new value is less than our previous count trim the List
-			if( _availableSpriteTrailInstances.Count > maxSpriteInstances )
+			if (_availableSpriteTrailInstances.Count > maxSpriteInstances)
 			{
 				var excessInstances = maxSpriteInstances - _availableSpriteTrailInstances.Count;
-				for( var i = 0; i < excessInstances; i++ )
+				for (var i = 0; i < excessInstances; i++)
 					_availableSpriteTrailInstances.Pop();
 			}
 
@@ -176,37 +184,37 @@ namespace Nez.Sprites
 		}
 
 
-		public SpriteTrail setMinDistanceBetweenInstances( float minDistanceBetweenInstances )
+		public SpriteTrail SetMinDistanceBetweenInstances(float minDistanceBetweenInstances)
 		{
-			this.minDistanceBetweenInstances = minDistanceBetweenInstances;
+			this.MinDistanceBetweenInstances = minDistanceBetweenInstances;
 			return this;
 		}
 
 
-		public SpriteTrail setFadeDuration( float fadeDuration )
+		public SpriteTrail SetFadeDuration(float fadeDuration)
 		{
-			this.fadeDuration = fadeDuration;
+			this.FadeDuration = fadeDuration;
 			return this;
 		}
 
 
-		public SpriteTrail setFadeDelay( float fadeDelay )
+		public SpriteTrail SetFadeDelay(float fadeDelay)
 		{
-			this.fadeDelay = fadeDelay;
+			this.FadeDelay = fadeDelay;
 			return this;
 		}
 
 
-		public SpriteTrail setInitialColor( Color initialColor )
+		public SpriteTrail SetInitialColor(Color initialColor)
 		{
-			this.initialColor = initialColor;
+			this.InitialColor = initialColor;
 			return this;
 		}
 
 
-		public SpriteTrail setFadeToColor( Color fadeToColor )
+		public SpriteTrail SetFadeToColor(Color fadeToColor)
 		{
-			this.fadeToColor = fadeToColor;
+			this.FadeToColor = fadeToColor;
 			return this;
 		}
 
@@ -217,11 +225,11 @@ namespace Nez.Sprites
 		/// enables the SpriteTrail
 		/// </summary>
 		/// <returns>The sprite trail.</returns>
-		public SpriteTrail enableSpriteTrail()
+		public SpriteTrail EnableSpriteTrail()
 		{
 			_awaitingDisable = false;
 			_isFirstInstance = true;
-			enabled = true;
+			Enabled = true;
 			return this;
 		}
 
@@ -229,109 +237,108 @@ namespace Nez.Sprites
 		/// disables the SpriteTrail optionally waiting for the current trail to fade out first
 		/// </summary>
 		/// <param name="completeCurrentTrail">If set to <c>true</c> complete current trail.</param>
-		public void disableSpriteTrail( bool completeCurrentTrail = true )
+		public void DisableSpriteTrail(bool completeCurrentTrail = true)
 		{
-			if( completeCurrentTrail )
+			if (completeCurrentTrail)
 			{
 				_awaitingDisable = true;
 			}
 			else
 			{
-				enabled = false;
+				Enabled = false;
 
-				for( var i = 0; i < _liveSpriteTrailInstances.Count; i++ )
-					_availableSpriteTrailInstances.Push( _liveSpriteTrailInstances[i] );
+				for (var i = 0; i < _liveSpriteTrailInstances.Count; i++)
+					_availableSpriteTrailInstances.Push(_liveSpriteTrailInstances[i]);
 				_liveSpriteTrailInstances.Clear();
 			}
 		}
 
-		public override void onAddedToEntity()
+		public override void OnAddedToEntity()
 		{
-			if( _sprite == null )
-				_sprite = this.getComponent<Sprite>();
+			if (_sprite == null)
+				_sprite = this.GetComponent<Sprite>();
 
-			if( _sprite == null )
+			if (_sprite == null)
 			{
-				enabled = false;
+				Enabled = false;
 				return;
 			}
 
 			// move the trail behind the Sprite
-			layerDepth = _sprite.layerDepth + 0.001f;
+			LayerDepth = _sprite.LayerDepth + 0.001f;
 
 			// if setMaxSpriteInstances is called it will handle initializing the SpriteTrailInstances so make sure we dont do it twice
-			if( _availableSpriteTrailInstances.Count == 0 )
+			if (_availableSpriteTrailInstances.Count == 0)
 			{
-				for( var i = 0; i < _maxSpriteInstances; i++ )
-					_availableSpriteTrailInstances.Push( new SpriteTrailInstance() );
+				for (var i = 0; i < _maxSpriteInstances; i++)
+					_availableSpriteTrailInstances.Push(new SpriteTrailInstance());
 			}
 		}
 
-		void IUpdatable.update()
+		void IUpdatable.Update()
 		{
-			if( _isFirstInstance )
+			if (_isFirstInstance)
 			{
 				_isFirstInstance = false;
-				spawnInstance();
+				SpawnInstance();
 			}
 			else
 			{
-				var distanceMoved = Math.Abs( Vector2.Distance( entity.transform.position + _localOffset, _lastPosition ) );
-				if( distanceMoved >= minDistanceBetweenInstances )
-					spawnInstance();
+				var distanceMoved = Math.Abs(Vector2.Distance(Entity.Transform.Position + _localOffset, _lastPosition));
+				if (distanceMoved >= MinDistanceBetweenInstances)
+					SpawnInstance();
 			}
 
-			var min = new Vector2( float.MaxValue, float.MaxValue );
-			var max = new Vector2( float.MinValue, float.MinValue );
+			var min = new Vector2(float.MaxValue, float.MaxValue);
+			var max = new Vector2(float.MinValue, float.MinValue);
 
 			// update any live instances
-			for( var i = _liveSpriteTrailInstances.Count - 1; i >= 0; i-- )
+			for (var i = _liveSpriteTrailInstances.Count - 1; i >= 0; i--)
 			{
-				if( _liveSpriteTrailInstances[i].update() )
+				if (_liveSpriteTrailInstances[i].Update())
 				{
-					_availableSpriteTrailInstances.Push( _liveSpriteTrailInstances[i] );
-					_liveSpriteTrailInstances.RemoveAt( i );
+					_availableSpriteTrailInstances.Push(_liveSpriteTrailInstances[i]);
+					_liveSpriteTrailInstances.RemoveAt(i);
 				}
 				else
 				{
 					// calculate our min/max for the bounds
-					Vector2.Min( ref min, ref _liveSpriteTrailInstances[i].position, out min );
-					Vector2.Max( ref max, ref _liveSpriteTrailInstances[i].position, out max );
+					Vector2.Min(ref min, ref _liveSpriteTrailInstances[i].Position, out min);
+					Vector2.Max(ref max, ref _liveSpriteTrailInstances[i].Position, out max);
 				}
 			}
 
-			_bounds.location = min;
-			_bounds.width = max.X - min.X;
-			_bounds.height = max.Y - min.Y;
-			_bounds.inflate( _sprite.width, _sprite.height );
+			_bounds.Location = min;
+			_bounds.Width = max.X - min.X;
+			_bounds.Height = max.Y - min.Y;
+			_bounds.Inflate(_sprite.Width, _sprite.Height);
 
 			// nothing left to render. disable ourself
-			if( _awaitingDisable && _liveSpriteTrailInstances.Count == 0 )
-				enabled = false;
+			if (_awaitingDisable && _liveSpriteTrailInstances.Count == 0)
+				Enabled = false;
 		}
 
 		/// <summary>
 		/// stores the last position for distance calculations and spawns a new trail instance if there is one available in the stack
 		/// </summary>
-		void spawnInstance()
+		void SpawnInstance()
 		{
-			_lastPosition = _sprite.entity.transform.position + _sprite.localOffset;
+			_lastPosition = _sprite.Entity.Transform.Position + _sprite.LocalOffset;
 
-			if( _awaitingDisable || _availableSpriteTrailInstances.Count == 0 )
+			if (_awaitingDisable || _availableSpriteTrailInstances.Count == 0)
 				return;
 
 			var instance = _availableSpriteTrailInstances.Pop();
-			instance.spawn( _lastPosition, _sprite.subtexture, fadeDuration, fadeDelay, initialColor, fadeToColor );
-			instance.setSpriteRenderOptions( _sprite.entity.transform.rotation, _sprite.origin, _sprite.entity.transform.scale, _sprite.spriteEffects, layerDepth );
-			_liveSpriteTrailInstances.Add( instance );
+			instance.Spawn(_lastPosition, _sprite.Subtexture, FadeDuration, FadeDelay, InitialColor, FadeToColor);
+			instance.SetSpriteRenderOptions(_sprite.Entity.Transform.Rotation, _sprite.Origin,
+				_sprite.Entity.Transform.Scale, _sprite.SpriteEffects, LayerDepth);
+			_liveSpriteTrailInstances.Add(instance);
 		}
 
-		public override void render( Graphics graphics, Camera camera )
+		public override void Render(Graphics graphics, Camera camera)
 		{
-			for( var i = 0; i < _liveSpriteTrailInstances.Count; i++ )
-				_liveSpriteTrailInstances[i].render( graphics, camera );
+			for (var i = 0; i < _liveSpriteTrailInstances.Count; i++)
+				_liveSpriteTrailInstances[i].Render(graphics, camera);
 		}
-
 	}
 }
-

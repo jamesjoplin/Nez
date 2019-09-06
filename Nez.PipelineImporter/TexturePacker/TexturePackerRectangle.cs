@@ -5,23 +5,18 @@ namespace Nez.TexturePackerImporter
 {
 	public class TexturePackerRectangle
 	{
-		[JsonProperty( "x" )]
-		public int x;
+		[JsonProperty("x")] public int X;
 
-		[JsonProperty( "y" )]
-		public int y;
+		[JsonProperty("y")] public int Y;
 
-		[JsonProperty( "w" )]
-		public int width;
+		[JsonProperty("w")] public int Width;
 
-		[JsonProperty( "h" )]
-		public int height;
+		[JsonProperty("h")] public int Height;
 
 
 		public override string ToString()
 		{
-			return string.Format( "{0} {1} {2} {3}", x, y, width, height );
+			return string.Format("{0} {1} {2} {3}", X, Y, Width, Height);
 		}
-
 	}
 }

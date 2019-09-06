@@ -11,17 +11,16 @@ namespace Nez.AI.BehaviorTrees
 		BehaviorTree<T> _childTree;
 
 
-		public BehaviorTreeReference( BehaviorTree<T> tree )
+		public BehaviorTreeReference(BehaviorTree<T> tree)
 		{
 			_childTree = tree;
 		}
 
 
-		public override TaskStatus update( T context )
+		public override TaskStatus Update(T context)
 		{
-			_childTree.tick();
+			_childTree.Tick();
 			return TaskStatus.Success;
 		}
 	}
 }
-

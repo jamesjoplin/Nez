@@ -6,20 +6,17 @@ namespace Nez.TiledMaps
 {
 	public class TmxTerrain
 	{
-		[XmlAttribute( AttributeName = "name" )]
-		public string name;
+		[XmlAttribute(AttributeName = "name")] public string Name;
 
-		[XmlAttribute( AttributeName = "tile" )]
-		public int tileId;
+		[XmlAttribute(AttributeName = "tile")] public int TileId;
 
-		[XmlArray( "properties" )]
-		[XmlArrayItem( "property" )]
-		public List<TmxProperty> properties = new List<TmxProperty>();
+		[XmlArray("properties")] [XmlArrayItem("property")]
+		public List<TmxProperty> Properties = new List<TmxProperty>();
 
 
 		public override string ToString()
 		{
-			return name;
+			return Name;
 		}
 	}
 }

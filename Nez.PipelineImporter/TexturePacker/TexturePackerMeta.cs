@@ -5,32 +5,24 @@ namespace Nez.TexturePackerImporter
 {
 	public class TexturePackerMeta
 	{
-		[JsonProperty( "app" )]
-		public string app;
+		[JsonProperty("app")] public string App;
 
-		[JsonProperty( "version" )]
-		public string version;
+		[JsonProperty("version")] public string Version;
 
-		[JsonProperty( "image" )]
-		public string image;
+		[JsonProperty("image")] public string Image;
 
-		[JsonProperty( "format" )]
-		public string format;
+		[JsonProperty("format")] public string Format;
 
-		[JsonProperty( "size" )]
-		public TexturePackerSize size;
+		[JsonProperty("size")] public TexturePackerSize Size;
 
-		[JsonProperty( "scale" )]
-		public float scale;
+		[JsonProperty("scale")] public float Scale;
 
-		[JsonProperty( "smartupdate" )]
-		public string smartUpdate;
+		[JsonProperty("smartupdate")] public string SmartUpdate;
 
 
 		public override string ToString()
 		{
-			return image;
+			return Image;
 		}
-
 	}
 }

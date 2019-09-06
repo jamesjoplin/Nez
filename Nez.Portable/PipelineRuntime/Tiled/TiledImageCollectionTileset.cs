@@ -9,15 +9,14 @@ namespace Nez.Tiled
 {
 	public class TiledImageCollectionTileset : TiledTileset
 	{
-		public TiledImageCollectionTileset( Texture2D texture, int firstId ) : base( texture, firstId )
-		{}
-
-
-		public void setTileTextureRegion( int tileId, Rectangle sourceRect )
+		public TiledImageCollectionTileset(Texture2D texture, int firstId) : base(texture, firstId)
 		{
-			_regions[tileId] = new Subtexture( texture, sourceRect );
 		}
 
+
+		public void SetTileTextureRegion(int tileId, Rectangle sourceRect)
+		{
+			_regions[tileId] = new Subtexture(Texture, sourceRect);
+		}
 	}
 }
-

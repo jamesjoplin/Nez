@@ -11,7 +11,6 @@ namespace Nez.Spatial
 		/// <summary>
 		/// The rectangle that defines the object's boundaries.
 		/// </summary>
-		Rectangle bounds { get; }
+		Rectangle Bounds { get; }
 	}
 }
-

@@ -302,12 +302,19 @@ namespace Nez
 
 		#endregion
 
+		public Scene() : this(true)
+		{
 
-		public Scene()
+		}
+
+
+		public Scene(bool createContentManager)
 		{
 			Entities = new EntityList(this);
 			RenderableComponents = new RenderableComponentList();
-			Content = new NezContentManager();
+
+			if (createContentManager)
+				Content = new NezContentManager();
 
 			var cameraEntity = CreateEntity("camera");
 			Camera = cameraEntity.AddComponent(new Camera());
@@ -406,8 +413,14 @@ namespace Nez
 
 		public virtual void Update()
 		{
+			Update(true);
+		}
+
+		public virtual void Update(bool graphicsDevice)
+		{
 			// we set the RenderTarget here so that the Viewport will match the RenderTarget properly
-			GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, _sceneRenderTarget);
+			if (graphicsDevice)
+				GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, _sceneRenderTarget);
 
 			// update our lists in case they have any changes
 			Entities.UpdateLists();

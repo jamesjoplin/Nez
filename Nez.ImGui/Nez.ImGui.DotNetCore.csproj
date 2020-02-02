@@ -5,7 +5,7 @@
     <RootNamespace>Nez.ImGui</RootNamespace>
 	<AssemblyName>Nez.ImGui</AssemblyName>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>	
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -17,7 +17,7 @@
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
 		<IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
 	</PropertyGroup>
-	
+
 	<!-- Copy ImGui native code to output -->
 	<PropertyGroup>
 		<ImGuiRuntimes>$(NuGetPackageRoot)\imgui.net\**\runtimes\</ImGuiRuntimes>
@@ -43,8 +43,8 @@
 	</ItemGroup>
 
 
-  <ItemGroup>
-  	<PackageReference Include="ImGui.NET" Version="1.67.0" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7"/>    
-  </ItemGroup>  
+	<ItemGroup>
+		<PackageReference Include="ImGui.NET" Version="1.71.0" />
+		<PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7"/>
+	</ItemGroup>
 </Project>

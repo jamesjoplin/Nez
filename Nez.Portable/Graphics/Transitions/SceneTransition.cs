@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections;
-using System.Threading;
 using Nez.Tweens;
 using System.Threading.Tasks;
 
@@ -12,12 +11,12 @@ namespace Nez
 	/// <summary>
 	/// SceneTransition is used to transition from one Scene to another or within a scene with an effect. If sceneLoadAction is null Nez
 	/// will perform an in-Scene transition as opposed to loading a new Scene mid transition.
-	/// 
+	///
 	/// The general gist of a transition is the following:
 	/// - onBeginTransition will be called allowing you to yield for multipart transitions
-	/// - for two part transitions with Effects you can yield on a call to tickEffectProgressProperty for part one to obscure the screen
+	/// - for two part transitions with Effects you can yield on a call to TickEffectProgressProperty for part one to obscure the screen
 	/// - next, yield a call to loadNextScene to load up the new Scene
-	/// - finally, yield again on tickEffectProgressProperty to un-obscure the screen and show the new Scene
+	/// - finally, yield again on TickEffectProgressProperty to un-obscure the screen and show the new Scene
 	/// </summary>
 	public abstract class SceneTransition
 	{
@@ -27,7 +26,7 @@ namespace Nez
 		public RenderTarget2D PreviousSceneRender;
 
 		/// <summary>
-		/// if true, Nez will render the previous scene into previousSceneRender so that you can use it with your transition 
+		/// if true, Nez will render the previous scene into previousSceneRender so that you can use it with your transition
 		/// </summary>
 		public bool WantsPreviousSceneRender;
 
@@ -87,13 +86,12 @@ namespace Nez
 
 
 		protected SceneTransition(bool wantsPreviousSceneRender = true) : this(null, wantsPreviousSceneRender)
-		{
-		}
+		{ }
 
 		protected SceneTransition(Func<Scene> sceneLoadAction, bool wantsPreviousSceneRender = true)
 		{
 			this.sceneLoadAction = sceneLoadAction;
-			this.WantsPreviousSceneRender = wantsPreviousSceneRender;
+			WantsPreviousSceneRender = wantsPreviousSceneRender;
 			_loadsNewScene = sceneLoadAction != null;
 
 			// create a RenderTarget if we need to for later
@@ -105,8 +103,7 @@ namespace Nez
 		protected IEnumerator LoadNextScene()
 		{
 			// let the listener know the screen is obscured if we have one
-			if (OnScreenObscured != null)
-				OnScreenObscured();
+			OnScreenObscured?.Invoke();
 
 			// if we arent loading a new scene we just set the flag as if we did so that the 2 phase transitions complete
 			if (!_loadsNewScene)
@@ -159,22 +156,20 @@ namespace Nez
 		/// called before the Scene is rendered. This allows a transition to render to a RenderTarget if needed and avoids issues with MonoGame
 		/// clearing the framebuffer when a RenderTarget is used.
 		/// </summary>
-		/// <param name="graphics">Graphics.</param>
-		public virtual void PreRender(Graphics graphics)
-		{
-		}
+		public virtual void PreRender(Batcher batcher)
+		{ }
 
 		/// <summary>
 		/// do all of your rendering here.static This is a base implementation. Any special rendering should override
 		/// this method.
 		/// </summary>
-		/// <param name="graphics">Graphics.</param>
-		public virtual void Render(Graphics graphics)
+		/// <param name="batcher">Batcher.</param>
+		public virtual void Render(Batcher batcher)
 		{
-			GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, null);
-			graphics.Batcher.Begin(BlendState.Opaque, Core.DefaultSamplerState, DepthStencilState.None, null);
-			graphics.Batcher.Draw(PreviousSceneRender, Vector2.Zero, Color.White);
-			graphics.Batcher.End();
+			Core.GraphicsDevice.SetRenderTarget(null);
+			batcher.Begin(BlendState.Opaque, Core.DefaultSamplerState, DepthStencilState.None, null);
+			batcher.Draw(PreviousSceneRender, Vector2.Zero, Color.White);
+			batcher.End();
 		}
 
 		/// <summary>

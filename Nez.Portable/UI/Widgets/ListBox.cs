@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Nez.BitmapFonts;
 
@@ -125,7 +124,7 @@ namespace Nez.UI
 				mousePos.Y += _style.Background.BottomHeight;
 			}
 
-			var index = (int) ((top + mousePos.Y) / _itemHeight);
+			var index = (int)((top + mousePos.Y) / _itemHeight);
 			if (index < 0 || index > _items.Count - 1)
 				return -1;
 
@@ -162,12 +161,12 @@ namespace Nez.UI
 		}
 
 
-		public override void Draw(Graphics graphics, float parentAlpha)
+		public override void Draw(Batcher batcher, float parentAlpha)
 		{
 			// update our hoved item if the mouse is over the list
 			if (_isMouseOverList)
 			{
-				var mousePos = ScreenToLocalCoordinates(stage.GetMousePosition());
+				var mousePos = ScreenToLocalCoordinates(_stage.GetMousePosition());
 				_hoveredItemIndex = GetItemIndexUnderMousePosition(mousePos);
 			}
 
@@ -177,7 +176,7 @@ namespace Nez.UI
 			var selectedDrawable = _style.Selection;
 
 			var color = GetColor();
-			color = new Color(color, (int) (color.A * parentAlpha));
+			color = ColorExt.Create(color, (int)(color.A * parentAlpha));
 
 			float x = GetX(), y = GetY(), width = GetWidth(), height = GetHeight();
 			var itemY = 0f;
@@ -185,7 +184,7 @@ namespace Nez.UI
 			var background = _style.Background;
 			if (background != null)
 			{
-				background.Draw(graphics, x, y, width, height, color);
+				background.Draw(batcher, x, y, width, height, color);
 				var leftWidth = background.LeftWidth;
 				x += leftWidth;
 				itemY += background.TopHeight;
@@ -193,27 +192,27 @@ namespace Nez.UI
 			}
 
 			var unselectedFontColor =
-				new Color(_style.FontColorUnselected, (int) (_style.FontColorUnselected.A * parentAlpha));
+				ColorExt.Create(_style.FontColorUnselected, (int)(_style.FontColorUnselected.A * parentAlpha));
 			var selectedFontColor =
-				new Color(_style.FontColorSelected, (int) (_style.FontColorSelected.A * parentAlpha));
-			var hoveredFontColor = new Color(_style.FontColorHovered, (int) (_style.FontColorHovered.A * parentAlpha));
+				ColorExt.Create(_style.FontColorSelected, (int)(_style.FontColorSelected.A * parentAlpha));
+			var hoveredFontColor = ColorExt.Create(_style.FontColorHovered, (int)(_style.FontColorHovered.A * parentAlpha));
 			Color fontColor;
 			for (var i = 0; i < _items.Count; i++)
 			{
 				if (!_cullingArea.HasValue ||
-				    (itemY - _itemHeight <= _cullingArea.Value.Y + _cullingArea.Value.Height &&
-				     itemY >= _cullingArea.Value.Y))
+					(itemY - _itemHeight <= _cullingArea.Value.Y + _cullingArea.Value.Height &&
+					 itemY >= _cullingArea.Value.Y))
 				{
 					var item = _items[i];
 					var selected = _selection.Contains(item);
 					if (selected)
 					{
-						selectedDrawable.Draw(graphics, x, y + itemY, width, _itemHeight, color);
+						selectedDrawable.Draw(batcher, x, y + itemY, width, _itemHeight, color);
 						fontColor = selectedFontColor;
 					}
 					else if (i == _hoveredItemIndex && _style.HoverSelection != null)
 					{
-						_style.HoverSelection.Draw(graphics, x, y + itemY, width, _itemHeight, color);
+						_style.HoverSelection.Draw(batcher, x, y + itemY, width, _itemHeight, color);
 						fontColor = hoveredFontColor;
 					}
 					else
@@ -222,7 +221,7 @@ namespace Nez.UI
 					}
 
 					var textPos = new Vector2(x + _textOffsetX, y + itemY + _textOffsetY);
-					graphics.Batcher.DrawString(font, item.ToString(), textPos, fontColor);
+					batcher.DrawString(font, item.ToString(), textPos, fontColor);
 				}
 				else if (itemY < _cullingArea.Value.Y)
 				{
@@ -411,10 +410,10 @@ namespace Nez.UI
 
 		public ListBoxStyle(BitmapFont font, Color fontColorSelected, Color fontColorUnselected, IDrawable selection)
 		{
-			this.Font = font;
-			this.FontColorSelected = fontColorSelected;
-			this.FontColorUnselected = fontColorUnselected;
-			this.Selection = selection;
+			Font = font;
+			FontColorSelected = fontColorSelected;
+			FontColorUnselected = fontColorUnselected;
+			Selection = selection;
 		}
 
 

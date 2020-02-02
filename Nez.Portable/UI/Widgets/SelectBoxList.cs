@@ -50,8 +50,8 @@ namespace Nez.UI
 			// show the list above or below the select box, limited to a number of items and the available height in the stage.
 			float itemHeight = ListBox.GetItemHeight();
 			float height = itemHeight * (MaxListCount <= 0
-				               ? _selectBox.GetItems().Count
-				               : Math.Min(MaxListCount, _selectBox.GetItems().Count));
+							   ? _selectBox.GetItems().Count
+							   : Math.Min(MaxListCount, _selectBox.GetItems().Count));
 			var scrollPaneBackground = GetStyle().Background;
 			if (scrollPaneBackground != null)
 				height += scrollPaneBackground.TopHeight + scrollPaneBackground.BottomHeight;
@@ -60,7 +60,8 @@ namespace Nez.UI
 				height += listBackground.TopHeight + listBackground.BottomHeight;
 
 			float heightAbove = _screenPosition.Y;
-			float heightBelow = Screen.Height /*camera.viewportHeight */ - _screenPosition.Y - _selectBox.GetHeight();
+			float heightBelow = (Screen.Height / stage.Camera.RawZoom) - _screenPosition.Y - _selectBox.GetHeight();
+
 			_isListBelowSelectBox = true;
 			if (height > heightBelow)
 			{
@@ -108,7 +109,7 @@ namespace Nez.UI
 
 			ListBox.SetTouchable(Touchable.Disabled);
 
-			if (stage != null)
+			if (_stage != null)
 			{
 				if (_previousScrollFocus != null && _previousScrollFocus.GetStage() == null)
 					_previousScrollFocus = null;
@@ -118,13 +119,13 @@ namespace Nez.UI
 		}
 
 
-		public override void Draw(Graphics graphics, float parentAlpha)
+		public override void Draw(Batcher batcher, float parentAlpha)
 		{
 			var temp = _selectBox.LocalToStageCoordinates(Vector2.Zero);
 			if (temp != _screenPosition)
-				Core.Schedule(0f, false, this, t => ((SelectBoxList<T>) t.Context).Hide());
+				Core.Schedule(0f, false, this, t => ((SelectBoxList<T>)t.Context).Hide());
 
-			base.Draw(graphics, parentAlpha);
+			base.Draw(batcher, parentAlpha);
 		}
 
 
@@ -132,13 +133,13 @@ namespace Nez.UI
 		{
 			if (Input.IsKeyPressed(Keys.Escape))
 			{
-				Core.Schedule(0f, false, this, t => ((SelectBoxList<T>) t.Context).Hide());
+				Core.Schedule(0f, false, this, t => ((SelectBoxList<T>)t.Context).Hide());
 				return;
 			}
 
 			if (Input.LeftMouseButtonPressed)
 			{
-				var point = stage.GetMousePosition();
+				var point = _stage.GetMousePosition();
 				point = ScreenToLocalCoordinates(point);
 
 				float yMin = 0, yMax = height;
@@ -151,7 +152,7 @@ namespace Nez.UI
 					yMax += _selectBox.height;
 
 				if (point.X < 0 || point.X > width || point.Y > yMax || point.Y < yMin)
-					Core.Schedule(0f, false, this, t => ((SelectBoxList<T>) t.Context).Hide());
+					Core.Schedule(0f, false, this, t => ((SelectBoxList<T>)t.Context).Hide());
 			}
 
 			base.Update();

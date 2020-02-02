@@ -36,7 +36,7 @@ table.Add( button ).SetMinWidth( 100 ).SetMinHeight( 30 );
 
 
 ## Skins
-Nez UI supports a skin system similar to [libGDX skins](https://github.com/libgdx/libgdx/wiki/Skin). Skins are optional but highly recommended. They act as a container to hold all of your UI resources and offer a bunch of automatic conversions. Nez includes a simple, default skin (accessible via `Skin.createDefaultSkin`) that you can use to mock up UIs quickly. You can create a skin programatically or via a JSON file that is run through the UI Skin Importer in the Pipeline tool. This gets the JSON parsed at build time so the data is ready to use at runtime. Below is example JSON with some comments added explaining the different elements.
+Nez UI supports a skin system similar to [libGDX skins](https://github.com/libgdx/libgdx/wiki/Skin). Skins are optional but highly recommended. They act as a container to hold all of your UI resources and offer a bunch of automatic conversions. Nez includes a simple, default skin (accessible via `Skin.CreateDefaultSkin`) that you can use to mock up UIs quickly. You can create a skin programatically or via a JSON file that is run through the UI Skin Importer in the Pipeline tool. This gets the JSON parsed at build time so the data is ready to use at runtime. Below is example JSON with some comments added explaining the different elements.
 
 ```javascript
 {
@@ -131,10 +131,10 @@ You do not have to use the JSON config file and pipeline importer to get the ben
 var skin = new Skin();
 
 // add a texture atlas so we have some images to work with
-skin.AddSubtextures( Content.Load<LibGdxAtlas>( "skins/UIAtlas" ) );
+skin.AddSprites( Content.Load<LibGdxAtlas>( "skins/UIAtlas" ) );
 
 // add a bunch of styles for our elements. Note that the getDrawable method is very flexible. The name passed to it can be any type of
-// IDrawable or it can be a Subtexture, NinePatchSubtexture or Color. In the latter case Skin will create and manage the IDrawable
+// IDrawable or it can be a Sprite, NinePatchSprite or Color. In the latter case Skin will create and manage the IDrawable
 // for you automatically.
 skin.Add( "button", new ButtonStyle( skin.GetDrawable( "default-round" ), skin.GetDrawable( "default-round-down" ), null ) );
 

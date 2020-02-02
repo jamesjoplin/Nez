@@ -4,19 +4,79 @@ The root class in the Nez world is the Core class which is a subclass of the Gam
 
 
 ## Graphics
-Nez will create an instance of the Graphics class (available via Graphics.instance) for you at startup. It includes a default BitmapFont so you can be up and running right away with good looking text (MonoGames SpriteFont has some terrible compression going on) and should cover most of your rendering needs. Graphics provides direct access to a SpriteBatch and there is a SpriteBatch extension class with a bunch of helpers for drawing rectangles, circles, lines, etc.
+Nez will create an instance of the Graphics class (available via `Graphics.Instance`) for you at startup. It includes a default BitmapFont so you can be up and running right away with good looking text (MonoGames SpriteFont has some terrible compression going on) and should cover most of your rendering needs. Graphics provides direct access to a SpriteBatch and there is a SpriteBatch extension class with a bunch of helpers for drawing rectangles, circles, lines, etc.
 
 
 ## Scene
-When you set Core.scene to a new Scene, Nez will finish rendering the current Scene, fire off the CoreEvents.SceneChanged event and then start rendering the new Scene. For more information on Scenes see the [Scene-Entity-Component](Scene-Entity-Component.md) FAQ.
+When you set Core.scene to a new Scene, Nez will finish rendering the current Scene, fire off the `CoreEvents.SceneChanged` event and then start rendering the new Scene. For more information on Scenes see the [Scene-Entity-Component](Scene-Entity-Component.md) FAQ.
+
+
+## Sprites
+You can't make a 2D game without sprites. Nez provides a variety of ways to render sprites from basic single texture rendering to sprite atlas support to nine patch sprites. Some of the common sprite Components to get to know are `SpriteRenderer`, `SpriteAnimator`, `SpriteTrail`, `TiledSprite`, `ScrollingSprite` and `PrototypeSprite`. The two most common things in a 2D game are static sprites and animated sprites. Examples are below:
+
+```csharp
+// load a single image texture into a static SpriteRenderer
+var texture = Content.Load<Texture2D>("SomeTex");
+
+var entity = CreateEntity("SpriteExample");
+entity.AddComponent(new SpriteRenderer(texture));
+```
+
+```csharp
+// load up a texture that is an atlas of 16x16 animation frames
+var texture = Content.Load<Texture2D>("SomeCharacterTex");
+var sprites = Sprite.SpritesFromAtlas(texture, 16, 16);
+			
+var entity = CreateEntity("SpriteExample");
+
+// add a SpriteAnimator, which renders the current frame of the currently playing animation
+var animator = entity.AddComponent<SpriteAnimator>();
+
+// add some animations
+animator.AddAnimation("Run", sprites[0], sprites[1], sprites[2]);
+animator.AddAnimation("Idle", sprites[3], sprites[4]);
+
+// some time later, play an animation
+animator.Play("Run");
+```
+
+
+## Sprite Atlases
+Far and away, the most common way to optimize a 2D game is to use sprite atlases. Nez comes with a sprite atlas packer tool and a runtime atlas loader. See [this README](../Nez.SpriteAtlasPacker/README.md) for more details. Here is a quick usage example. We will be using the folder hierarchy below for the example. Textures can be present in any of the folder. Those in `root-dir` will not be part of a sprite animation. Any sprites in subfolders will be part of sprite animations with the animation name being the folder name (`player`, `enemy1` and `enemy2` would all be valid animations).
+
+- root-dir
+	- player
+	- enemy1
+	- enemy2
+
+To generate the sprite atlas and data file Nez needs to load the atlas use the following command:
+
+`mono SpriteAtlasPacker.exe -image:roots.png -map:roots.atlas path/to/root-dir`
+
+Copy the generated `roots.png` and `roots.atlas` files into your project's Content folder. Note that the .png and .atlas files must have the same name. Now we can load and use the atlas using the following code:
+
+```csharp
+var atlas = Content.LoadSpriteAtlas("Content/roots.atlas");
+
+// get a sprite from the atlas
+var sprite = atlas.GetSprite("sprite-name.png");
+
+// get a sprite animation
+var animation = atlas.GetAnimation("enemy1");
+
+// atlases can also easily be used by the SpriteAnimator via a convenience method
+// animator is assumed to be loaded elsewhere
+animator.AddAnimationsFromAtlas(atlas);
+animator.Play("enemy2");
+```
 
 
 ## Physics
-Be careful not to confuse the Nez Physics system with realistic physics simulations (such as Box2D, Chipmunk, etc)! That is not at all its purpose. The Physics system is here only to provide spatial and collision information. It does not attempt to handle a full, real-world physics simulation. At the core of the Physics system is a SpatialHash that gets populated and updated automatically as you add/remove/move Colliders. You can access the various Physics-related methods via the **Physics** class which provides methods (boxcast, raycast, etc) to handle broadphase collision detection in a performant way. Internally, Nez uses the Physics systems for collision detection with various shapes such as rectangles, circles and polygons. The Entity class provides move methods that handle all this for you or you could opt to just query the Physics system and handle the narrow phase collision detection yourself.
+Be careful not to confuse the Nez Physics system with realistic physics simulations (such as Box2D, Farseer, Chipmunk, etc)! That is not at all its purpose. The Physics system is here only to provide spatial and collision information. It does not attempt to handle a full, real-world physics simulation. At the core of the Physics system is a SpatialHash that gets populated and updated automatically as you add/remove/move Colliders. You can access the various Physics-related methods via the **Physics** class which provides methods (boxcast, raycast, etc) to handle broadphase collision detection in a performant way. Internally, Nez uses the Physics systems for collision detection with various shapes such as rectangles, circles and polygons. The Entity class provides move methods that handle all this for you or you could opt to just query the Physics system and handle the narrow phase collision detection yourself.
 
 
 ## TimerManager
-The TimerManager is a simple helper that lets you pass in an Action that can be called once or repeately with or without a delay. The **Core.Schedule** method provides easy access to the TimerManager. When you call **schedule** you get back an ITimer object that has a **stop** method that can be used to stop the timer from firing again. Timers are automatically cached and reused so fire up as many as you need.
+The TimerManager is a simple helper that lets you pass in an Action that can be called once or repeately with or without a delay. The **Core.Schedule** method provides easy access to the TimerManager. When you call **Schedule** you get back an ITimer object that has a **Stop** method that can be used to stop the timer from firing again.
 
 
 ## CoroutineManager

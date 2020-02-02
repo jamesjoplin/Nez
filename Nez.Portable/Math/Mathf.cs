@@ -15,21 +15,21 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Round(float f)
 		{
-			return (float) Math.Round(f);
+			return (float)Math.Round(f);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Ceil(float f)
 		{
-			return (float) Math.Ceiling(f);
+			return (float)Math.Ceiling(f);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int CeilToInt(float f)
 		{
-			return (int) Math.Ceiling((double) f);
+			return (int)Math.Ceiling((double)f);
 		}
 
 
@@ -41,23 +41,30 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int FastCeilToInt(float y)
 		{
-			return 32768 - (int) (32768f - y);
+			return 32768 - (int)(32768f - y);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Floor(float f)
 		{
-			return (float) Math.Floor(f);
+			return (float)Math.Floor(f);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int FloorToInt(float f)
 		{
-			return (int) Math.Floor((double) f);
+			return (int)Math.Floor((double)f);
 		}
 
+		/// <summary>Returns the result of converting a float value from degrees to radians.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float Radians(float x) => x * 0.0174532925f;
+
+		/// <summary>Returns the result of converting a double value from radians to degrees.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float Degrees(float x) => x * 57.295779513f;
 
 		/// <summary>
 		/// floors the float to the nearest int value below x. note that this only works for values in the range of short
@@ -68,14 +75,14 @@ namespace Nez
 		public static int FastFloorToInt(float x)
 		{
 			// we shift to guaranteed positive before casting then shift back after
-			return (int) (x + 32768f) - 32768;
+			return (int)(x + 32768f) - 32768;
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int RoundToInt(float f)
 		{
-			return (int) Math.Round(f);
+			return (int)Math.Round(f);
 		}
 
 
@@ -87,7 +94,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int TruncateToInt(float f)
 		{
-			return (int) Math.Truncate(f);
+			return (int)Math.Truncate(f);
 		}
 
 
@@ -139,14 +146,14 @@ namespace Nez
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public float Snap(float value, float increment)
+		public static float Snap(float value, float increment)
 		{
 			return Round(value / increment) * increment;
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public float Snap(float value, float increment, float offset)
+		public static float Snap(float value, float increment, float offset)
 		{
 			return (Round((value - offset) / increment) * increment) + offset;
 		}
@@ -155,7 +162,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Lerp(float from, float to, float t)
 		{
-			return from + (to - from) * Mathf.Clamp01(t);
+			return from + (to - from) * Clamp01(t);
 		}
 
 
@@ -198,7 +205,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float LerpAngle(float a, float b, float t)
 		{
-			float num = Mathf.Repeat(b - a, 360f);
+			float num = Repeat(b - a, 360f);
 			if (num > 180f)
 				num -= 360f;
 
@@ -216,7 +223,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float LerpAngleRadians(float a, float b, float t)
 		{
-			float num = Mathf.Repeat(b - a, MathHelper.TwoPi);
+			float num = Repeat(b - a, MathHelper.TwoPi);
 			if (num > MathHelper.Pi)
 				num -= MathHelper.TwoPi;
 
@@ -232,7 +239,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Repeat(float t, float length)
 		{
-			return t - Mathf.Floor(t / length) * length;
+			return t - Floor(t / length) * length;
 		}
 
 
@@ -278,7 +285,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float PingPong(float t, float length)
 		{
-			t = Mathf.Repeat(t, length * 2f);
+			t = Repeat(t, length * 2f);
 			return length - Math.Abs(t - length);
 		}
 
@@ -290,7 +297,7 @@ namespace Nez
 		/// <param name="value">Value.</param>
 		/// <param name="threshold">Threshold.</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public float SignThreshold(float value, float threshold)
+		public static float SignThreshold(float value, float threshold)
 		{
 			if (Math.Abs(value) >= threshold)
 				return Math.Sign(value);
@@ -308,7 +315,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float DeltaAngle(float current, float target)
 		{
-			var num = Mathf.Repeat(target - current, 360f);
+			var num = Repeat(target - current, 360f);
 			if (num > 180f)
 				num -= 360f;
 
@@ -360,7 +367,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float ApproachAngle(float start, float end, float shift)
 		{
-			float deltaAngle = Mathf.DeltaAngle(start, end);
+			float deltaAngle = DeltaAngle(start, end);
 			if (-shift < deltaAngle && deltaAngle < shift)
 				return end;
 
@@ -377,7 +384,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float ApproachAngleRadians(float start, float end, float shift)
 		{
-			float deltaAngleRadians = Mathf.DeltaAngleRadians(start, end);
+			float deltaAngleRadians = DeltaAngleRadians(start, end);
 			if (-shift < deltaAngleRadians && deltaAngleRadians < shift)
 				return end;
 
@@ -545,8 +552,8 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float RoundWithRoundedAmount(float value, out float roundedAmount)
 		{
-			var rounded = Mathf.Round(value);
-			roundedAmount = value - (rounded * Mathf.Round(value / rounded));
+			var rounded = Round(value);
+			roundedAmount = value - (rounded * Round(value / rounded));
 			return rounded;
 		}
 
@@ -604,11 +611,16 @@ namespace Nez
 			return Round(value / roundToNearest) * roundToNearest;
 		}
 
-
+        /// <summary>
+        /// Checks if the value passed falls under a certain threshold.
+        /// Useful for small, precise comparisons.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="ep">The threshold to check the value with. <see cref="Epsilon"/> is used by default.</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool WithinEpsilon(float floatA, float floatB)
+		public static bool WithinEpsilon(float value, float ep = Epsilon)
 		{
-			return Math.Abs(floatA - floatB) < Epsilon;
+			return Math.Abs(value) < ep;
 		}
 
 
@@ -647,14 +659,14 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Sqrt(float val)
 		{
-			return (float) Math.Sqrt(val);
+			return (float)Math.Sqrt(val);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Pow(float x, float y)
 		{
-			return (float) Math.Pow(x, y);
+			return (float)Math.Pow(x, y);
 		}
 
 
@@ -665,7 +677,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Sin(float f)
 		{
-			return (float) Math.Sin(f);
+			return (float)Math.Sin(f);
 		}
 
 
@@ -676,7 +688,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Cos(float f)
 		{
-			return (float) Math.Cos(f);
+			return (float)Math.Cos(f);
 		}
 
 
@@ -687,14 +699,14 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Acos(float f)
 		{
-			return (float) Math.Acos(f);
+			return (float)Math.Acos(f);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Exp(float power)
 		{
-			return (float) Math.Exp(power);
+			return (float)Math.Exp(power);
 		}
 
 
@@ -706,7 +718,7 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Atan2(float y, float x)
 		{
-			return (float) Math.Atan2(y, x);
+			return (float)Math.Atan2(y, x);
 		}
 
 		#endregion
@@ -715,14 +727,14 @@ namespace Nez
 		#region Vector2
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public float AngleBetweenVectors(Vector2 from, Vector2 to)
+		public static float AngleBetweenVectors(Vector2 from, Vector2 to)
 		{
-			return Mathf.Atan2(to.Y - from.Y, to.X - from.X);
+			return Atan2(to.Y - from.Y, to.X - from.X);
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public Vector2 AngleToVector(float angleRadians, float length)
+		public static Vector2 AngleToVector(float angleRadians, float length)
 		{
 			return new Vector2(Cos(angleRadians) * length, Sin(angleRadians) * length);
 		}
@@ -732,7 +744,7 @@ namespace Nez
 		/// helper for moving a value around in a circle.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		static public Vector2 RotateAround(Vector2 position, float speed)
+		public static Vector2 RotateAround(Vector2 position, float speed)
 		{
 			var time = Time.TotalTime * speed;
 
@@ -755,8 +767,8 @@ namespace Nez
 		public static Vector2 RotateAround(Vector2 point, Vector2 center, float angleInDegrees)
 		{
 			angleInDegrees = MathHelper.ToRadians(angleInDegrees);
-			var cos = Mathf.Cos(angleInDegrees);
-			var sin = Mathf.Sin(angleInDegrees);
+			var cos = Cos(angleInDegrees);
+			var sin = Sin(angleInDegrees);
 			var rotatedX = cos * (point.X - center.X) - sin * (point.Y - center.Y) + center.X;
 			var rotatedY = sin * (point.X - center.X) + cos * (point.Y - center.Y) + center.Y;
 
@@ -775,8 +787,8 @@ namespace Nez
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 RotateAroundRadians(Vector2 point, Vector2 center, float angleInRadians)
 		{
-			var cos = Mathf.Cos(angleInRadians);
-			var sin = Mathf.Sin(angleInRadians);
+			var cos = Cos(angleInRadians);
+			var sin = Sin(angleInRadians);
 			var rotatedX = cos * (point.X - center.X) - sin * (point.Y - center.Y) + center.X;
 			var rotatedY = sin * (point.X - center.X) + cos * (point.Y - center.Y) + center.Y;
 
@@ -831,10 +843,10 @@ namespace Nez
 		/// <param name="phase">Phase.</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 Lissajou(float xFrequency = 2f, float yFrequency = 3f, float xMagnitude = 1,
-		                               float yMagnitude = 1, float phase = 0)
+									   float yMagnitude = 1, float phase = 0)
 		{
-			var x = Mathf.Sin(Time.TotalTime * xFrequency + phase) * xMagnitude;
-			var y = Mathf.Cos(Time.TotalTime * yFrequency) * yMagnitude;
+			var x = Sin(Time.TotalTime * xFrequency + phase) * xMagnitude;
+			var y = Cos(Time.TotalTime * yFrequency) * yMagnitude;
 
 			return new Vector2(x, y);
 		}
@@ -854,14 +866,14 @@ namespace Nez
 		/// <param name="oscillationInterval">Oscillation interval.</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Vector2 LissajouDamped(float xFrequency = 2f, float yFrequency = 3f, float xMagnitude = 1,
-		                                     float yMagnitude = 1, float phase = 0.5f, float damping = 0f,
-		                                     float oscillationInterval = 5f)
+											 float yMagnitude = 1, float phase = 0.5f, float damping = 0f,
+											 float oscillationInterval = 5f)
 		{
-			var wrappedTime = Mathf.PingPong(Time.TotalTime, oscillationInterval);
-			var damped = Mathf.Pow(MathHelper.E, -damping * wrappedTime);
+			var wrappedTime = PingPong(Time.TotalTime, oscillationInterval);
+			var damped = Pow(MathHelper.E, -damping * wrappedTime);
 
-			var x = damped * Mathf.Sin(Time.TotalTime * xFrequency + phase) * xMagnitude;
-			var y = damped * Mathf.Cos(Time.TotalTime * yFrequency) * yMagnitude;
+			var x = damped * Sin(Time.TotalTime * xFrequency + phase) * xMagnitude;
+			var y = damped * Cos(Time.TotalTime * yFrequency) * yMagnitude;
 
 			return new Vector2(x, y);
 		}

@@ -2,7 +2,6 @@ using ImGuiNET;
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Num = System.Numerics;
 using Nez.Persistence.Binary;
@@ -33,7 +32,7 @@ namespace Nez.ImGuiTools
 
 		void LoadSettings()
 		{
-			var fileDataStore = Core.Services.GetOrAddService<FileDataStore>();
+			var fileDataStore = Core.Services.GetService<FileDataStore>() ?? new FileDataStore(Nez.Storage.GetStorageRoot());
 			KeyValueDataStore.Default.Load(fileDataStore);
 
 			ShowStyleEditor = KeyValueDataStore.Default.GetBool(kShowStyleEditor, ShowStyleEditor);
@@ -111,8 +110,7 @@ namespace Nez.ImGuiTools
 			}
 
 			ImGui.SetNextWindowPos(_gameWindowFirstPosition, ImGuiCond.FirstUseEver);
-			ImGui.SetNextWindowSize(new Num.Vector2(Screen.Width / 2, (Screen.Width / 2) / rtAspectRatio),
-				ImGuiCond.FirstUseEver);
+			ImGui.SetNextWindowSize(new Num.Vector2(Screen.Width / 2, (Screen.Width / 2) / rtAspectRatio), ImGuiCond.FirstUseEver);
 
 			HandleForcedGameViewParams();
 
@@ -123,7 +121,10 @@ namespace Nez.ImGuiTools
 			OverrideMouseInput();
 
 			if (!ImGui.IsWindowFocused())
+			{
 				Input.SetCurrentKeyboardState(new KeyboardState());
+				Input.SetCurrentMouseState(new MouseState());
+			}
 
 			ImGui.End();
 
@@ -289,12 +290,12 @@ namespace Nez.ImGuiTools
 				ImGui.End();
 
 				Core.GraphicsDevice.SamplerStates[0] = samplerState;
-				GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, finalRenderTarget);
+				Core.GraphicsDevice.SetRenderTarget(finalRenderTarget);
 				Core.GraphicsDevice.Clear(letterboxColor);
 			}
 			else
 			{
-				GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, finalRenderTarget);
+				Core.GraphicsDevice.SetRenderTarget(finalRenderTarget);
 				Core.GraphicsDevice.Clear(letterboxColor);
 				Graphics.Instance.Batcher.Begin(BlendState.Opaque, samplerState, null, null);
 				Graphics.Instance.Batcher.Draw(source, finalRenderDestinationRect, Color.White);

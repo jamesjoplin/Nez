@@ -74,7 +74,7 @@ namespace Nez.UI
 		}
 
 
-		public override void Draw(Graphics graphics, float parentAlpha)
+		public override void Draw(Batcher batcher, float parentAlpha)
 		{
 			Validate();
 
@@ -94,14 +94,14 @@ namespace Nez.UI
 			var fontColor = _isDisabled ? style.DisabledFontColor : style.FontColor;
 
 			var color = GetColor();
-			color = new Color(color, (int) (color.A * parentAlpha));
+			color = ColorExt.Create(color, (int)(color.A * parentAlpha));
 			float x = GetX();
 			float y = GetY();
 			float width = GetWidth();
 			float height = GetHeight();
 
 			if (background != null)
-				background.Draw(graphics, x, y, width, height, color);
+				background.Draw(batcher, x, y, width, height, color);
 
 			var selected = _selection.First();
 			if (selected != null)
@@ -112,15 +112,15 @@ namespace Nez.UI
 					width -= background.LeftWidth + background.RightWidth;
 					height -= background.BottomHeight + background.TopHeight;
 					x += background.LeftWidth;
-					y += (int) (height / 2 + background.BottomHeight - font.LineHeight / 2);
+					y += (int)(height / 2 + background.BottomHeight - font.LineHeight / 2);
 				}
 				else
 				{
-					y += (int) (height / 2 + font.LineHeight / 2);
+					y += (int)(height / 2 + font.LineHeight / 2);
 				}
 
-				fontColor = new Color(fontColor, (int) (fontColor.A * parentAlpha));
-				graphics.Batcher.DrawString(font, str, new Vector2(x, y), fontColor);
+				fontColor = ColorExt.Create(fontColor, (int)(fontColor.A * parentAlpha));
+				batcher.DrawString(font, str, new Vector2(x, y), fontColor);
 			}
 		}
 
@@ -363,9 +363,9 @@ namespace Nez.UI
 
 		public void SetDisabled(bool disabled)
 		{
-			if (disabled && !this._isDisabled)
+			if (disabled && !_isDisabled)
 				HideList();
-			this._isDisabled = disabled;
+			_isDisabled = disabled;
 		}
 
 
@@ -465,13 +465,13 @@ namespace Nez.UI
 		}
 
 		public SelectBoxStyle(BitmapFont font, Color fontColor, IDrawable background, ScrollPaneStyle scrollStyle,
-		                      ListBoxStyle listStyle)
+							  ListBoxStyle listStyle)
 		{
-			this.Font = font;
-			this.FontColor = fontColor;
-			this.Background = background;
-			this.ScrollStyle = scrollStyle;
-			this.ListStyle = listStyle;
+			Font = font;
+			FontColor = fontColor;
+			Background = background;
+			ScrollStyle = scrollStyle;
+			ListStyle = listStyle;
 		}
 	}
 }

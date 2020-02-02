@@ -43,30 +43,30 @@ namespace Nez
 
 		public DebugDrawItem(Vector2 start, Vector2 end, Color color, float duration)
 		{
-			this.Start = start;
-			this.End = end;
-			this.Color = color;
-			this.Duration = duration;
+			Start = start;
+			End = end;
+			Color = color;
+			Duration = duration;
 			drawType = DebugDrawType.Line;
 		}
 
 
 		public DebugDrawItem(Rectangle rectangle, Color color, float duration)
 		{
-			this.Rectangle = rectangle;
-			this.Color = color;
-			this.Duration = duration;
+			Rectangle = rectangle;
+			Color = color;
+			Duration = duration;
 			drawType = DebugDrawType.HollowRectangle;
 		}
 
 
 		public DebugDrawItem(float x, float y, int size, Color color, float duration)
 		{
-			this.X = x;
-			this.Y = y;
-			this.Size = size;
-			this.Color = color;
-			this.Duration = duration;
+			X = x;
+			Y = y;
+			Size = size;
+			Color = color;
+			Duration = duration;
 			drawType = DebugDrawType.Pixel;
 		}
 
@@ -74,12 +74,12 @@ namespace Nez
 		public DebugDrawItem(BitmapFont bitmapFont, String text, Vector2 position, Color color, float duration,
 		                     float scale)
 		{
-			this.BitmapFont = bitmapFont;
-			this.Text = text;
-			this.Position = position;
-			this.Color = color;
-			this.Scale = scale;
-			this.Duration = duration;
+			BitmapFont = bitmapFont;
+			Text = text;
+			Position = position;
+			Color = color;
+			Scale = scale;
+			Duration = duration;
 			drawType = DebugDrawType.BitmapFontText;
 		}
 
@@ -87,12 +87,12 @@ namespace Nez
 		public DebugDrawItem(NezSpriteFont spriteFont, String text, Vector2 position, Color color, float duration,
 		                     float scale)
 		{
-			this.SpriteFont = spriteFont;
-			this.Text = text;
-			this.Position = position;
-			this.Color = color;
-			this.Scale = scale;
-			this.Duration = duration;
+			SpriteFont = spriteFont;
+			Text = text;
+			Position = position;
+			Color = color;
+			Scale = scale;
+			Duration = duration;
 			drawType = DebugDrawType.SpriteFontText;
 		}
 
@@ -100,10 +100,10 @@ namespace Nez
 		public DebugDrawItem(string text, Color color, float duration, float scale)
 		{
 			BitmapFont = Graphics.Instance.BitmapFont;
-			this.Text = text;
-			this.Color = color;
-			this.Scale = scale;
-			this.Duration = duration;
+			Text = text;
+			Color = color;
+			Scale = scale;
+			Duration = duration;
 			drawType = DebugDrawType.ConsoleText;
 		}
 
@@ -111,29 +111,29 @@ namespace Nez
 		/// <summary>
 		/// returns true if we are done with this debug draw item
 		/// </summary>
-		public bool Draw(Graphics graphics)
+		public bool Draw(Batcher batcher)
 		{
 			switch (drawType)
 			{
 				case DebugDrawType.Line:
-					graphics.Batcher.DrawLine(Start, End, Color);
+					batcher.DrawLine(Start, End, Color);
 					break;
 				case DebugDrawType.HollowRectangle:
-					graphics.Batcher.DrawHollowRect(Rectangle, Color);
+					batcher.DrawHollowRect(Rectangle, Color);
 					break;
 				case DebugDrawType.Pixel:
-					graphics.Batcher.DrawPixel(X, Y, Color, Size);
+					batcher.DrawPixel(X, Y, Color, Size);
 					break;
 				case DebugDrawType.BitmapFontText:
-					graphics.Batcher.DrawString(BitmapFont, Text, Position, Color, 0f, Vector2.Zero, Scale,
+					batcher.DrawString(BitmapFont, Text, Position, Color, 0f, Vector2.Zero, Scale,
 						SpriteEffects.None, 0f);
 					break;
 				case DebugDrawType.SpriteFontText:
-					graphics.Batcher.DrawString(SpriteFont, Text, Position, Color, 0f, Vector2.Zero, new Vector2(Scale),
+					batcher.DrawString(SpriteFont, Text, Position, Color, 0f, Vector2.Zero, new Vector2(Scale),
 						SpriteEffects.None, 0f);
 					break;
 				case DebugDrawType.ConsoleText:
-					graphics.Batcher.DrawString(BitmapFont, Text, Position, Color, 0f, Vector2.Zero, Scale,
+					batcher.DrawString(BitmapFont, Text, Position, Color, 0f, Vector2.Zero, Scale,
 						SpriteEffects.None, 0f);
 					break;
 			}

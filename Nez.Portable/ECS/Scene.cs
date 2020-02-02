@@ -419,7 +419,8 @@ namespace Nez
 		public virtual void Update(bool graphicsDevice)
 		{
 			// we set the RenderTarget here so that the Viewport will match the RenderTarget properly
-			Core.GraphicsDevice.SetRenderTarget(_sceneRenderTarget);
+			if (graphicsDevice)
+				Core.GraphicsDevice.SetRenderTarget(_sceneRenderTarget);
 
 			// update our lists in case they have any changes
 			Entities.UpdateLists();

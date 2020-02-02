@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace Nez.UI
+﻿namespace Nez.UI
 {
 	/// <summary>
 	/// Value placeholder, allowing the value to be computed on request. Values are provided an element for context which reduces the
@@ -18,7 +15,7 @@ namespace Nez.UI
 		/// <summary>
 		/// A value that is always zero.
 		/// </summary>
-		static public Fixed Zero = new Fixed(0);
+		public static Fixed Zero = new Fixed(0);
 
 
 		/// <summary>
@@ -40,7 +37,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value MinWidth = new MinWidthValue();
+		public static Value MinWidth = new MinWidthValue();
 
 		/// <summary>
 		/// Value that is the minWidth of the element in the cell.
@@ -57,7 +54,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value MinHeight = new MinHeightValue();
+		public static Value MinHeight = new MinHeightValue();
 
 		/// <summary>
 		/// Value that is the minHeight of the element in the cell.
@@ -74,7 +71,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value PrefWidth = new PrefWidthValue();
+		public static Value PrefWidth = new PrefWidthValue();
 
 		/// <summary>
 		/// Value that is the prefWidth of the element in the cell.
@@ -91,7 +88,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value PrefHeight = new PrefHeightValue();
+		public static Value PrefHeight = new PrefHeightValue();
 
 		/// <summary>
 		/// Value that is the prefHeight of the element in the cell.
@@ -108,7 +105,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value MaxWidth = new MaxWidthValue();
+		public static Value MaxWidth = new MaxWidthValue();
 
 		/// <summary>
 		/// Value that is the maxWidth of the element in the cell.
@@ -125,7 +122,7 @@ namespace Nez.UI
 		}
 
 
-		static public Value MaxHeight = new MaxHeightValue();
+		public static Value MaxHeight = new MaxHeightValue();
 
 		/// <summary>
 		/// Value that is the maxHeight of the element in the cell.
@@ -145,7 +142,7 @@ namespace Nez.UI
 		/// <summary>
 		/// Value that is the maxHeight of the element in the cell.
 		/// </summary>
-		static public Value PercentWidth(float percent)
+		public static Value PercentWidth(float percent)
 		{
 			return new PercentWidthValue()
 			{
@@ -170,7 +167,7 @@ namespace Nez.UI
 		/// <summary>
 		/// Returns a value that is a percentage of the specified elements's width. The context element is ignored.
 		/// </summary>
-		static public Value PercentWidth(float percent, Element delegateElement)
+		public static Value PercentWidth(float percent, Element delegateElement)
 		{
 			return new PercentWidthDelegateValue()
 			{
@@ -197,7 +194,7 @@ namespace Nez.UI
 		/// <summary>
 		/// Returns a value that is a percentage of the element's height.
 		/// </summary>
-		static public Value PercentHeight(float percent)
+		public static Value PercentHeight(float percent)
 		{
 			return new PercentageHeightValue()
 			{
@@ -222,7 +219,7 @@ namespace Nez.UI
 		/// <summary>
 		/// Returns a value that is a percentage of the specified elements's height. The context element is ignored.
 		/// </summary>
-		static public Value PercentHeight(float percent, Element delegateElement)
+		public static Value PercentHeight(float percent, Element delegateElement)
 		{
 			return new PercentHeightDelegateValue()
 			{

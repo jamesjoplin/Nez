@@ -36,7 +36,7 @@ namespace Nez
 
 		public VirtualIntegerAxis(params VirtualAxis.Node[] nodes)
 		{
-			this.Nodes.AddRange(nodes);
+			Nodes.AddRange(nodes);
 		}
 
 
@@ -141,7 +141,7 @@ namespace Nez
 		#endregion
 
 
-		static public implicit operator int(VirtualIntegerAxis axis)
+		public static implicit operator int(VirtualIntegerAxis axis)
 		{
 			return axis.Value;
 		}

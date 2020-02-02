@@ -51,8 +51,7 @@ namespace Nez
 		}
 
 		public FadeTransition() : this(null)
-		{
-		}
+		{ }
 
 		public override IEnumerator OnBeginTransition()
 		{
@@ -81,8 +80,7 @@ namespace Nez
 			while (elapsed < FadeInDuration)
 			{
 				elapsed += Time.DeltaTime;
-				_color = Lerps.Ease(EaseHelper.OppositeEaseType(FadeEaseType), ref _fromColor, ref _toColor, elapsed,
-					FadeInDuration);
+				_color = Lerps.Ease(EaseHelper.OppositeEaseType(FadeEaseType), ref _fromColor, ref _toColor, elapsed, FadeInDuration);
 
 				yield return null;
 			}
@@ -91,18 +89,18 @@ namespace Nez
 			_overlayTexture.Dispose();
 		}
 
-		public override void Render(Graphics graphics)
+		public override void Render(Batcher batcher)
 		{
-			GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, null);
-			graphics.Batcher.Begin(BlendState.NonPremultiplied, Core.DefaultSamplerState, DepthStencilState.None, null);
+			Core.GraphicsDevice.SetRenderTarget(null);
+			batcher.Begin(BlendState.NonPremultiplied, Core.DefaultSamplerState, DepthStencilState.None, null);
 
 			// we only render the previousSceneRender while fading to _color. It will be null after that.
 			if (!_isNewSceneLoaded)
-				graphics.Batcher.Draw(PreviousSceneRender, _destinationRect, Color.White);
+				batcher.Draw(PreviousSceneRender, _destinationRect, Color.White);
 
-			graphics.Batcher.Draw(_overlayTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), _color);
+			batcher.Draw(_overlayTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), _color);
 
-			graphics.Batcher.End();
+			batcher.End();
 		}
 	}
 }

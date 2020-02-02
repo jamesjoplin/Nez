@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Nez.Textures;
 using Microsoft.Xna.Framework;
 using System.Runtime.CompilerServices;
@@ -9,9 +8,9 @@ namespace Nez
 {
 	/// <summary>
 	/// Renderers are added to a Scene and handle all of the actual calls to RenderableComponent.render and Entity.debugRender.
-	/// A simple Renderer could just start the Graphics.instanceGraphics.batcher or it could create its own local Graphics instance
+	/// A simple Renderer could just start the Batcher.instanceGraphics.batcher or it could create its own local Batcher instance
 	/// if it needs it for some kind of custom rendering.
-	/// 
+	///
 	/// Note that it is a best practice to ensure all Renderers that render to a RenderTarget have lower renderOrders to avoid issues
 	/// with clearing the back buffer (http://gamedev.stackexchange.com/questions/90396/monogame-setrendertarget-is-wiping-the-backbuffer).
 	/// Giving them a negative renderOrder is a good strategy to deal with this.
@@ -73,13 +72,12 @@ namespace Nez
 
 
 		protected Renderer(int renderOrder) : this(renderOrder, null)
-		{
-		}
+		{}
 
 		protected Renderer(int renderOrder, Camera camera)
 		{
-			this.Camera = camera;
-			this.RenderOrder = renderOrder;
+			Camera = camera;
+			RenderOrder = renderOrder;
 		}
 
 		/// <summary>
@@ -87,17 +85,12 @@ namespace Nez
 		/// </summary>
 		/// <param name="scene">Scene.</param>
 		public virtual void OnAddedToScene(Scene scene)
-		{
-		}
+		{}
 
 		/// <summary>
 		/// called when a scene is ended or this Renderer is removed from the Scene. use this for cleanup.
 		/// </summary>
-		public virtual void Unload()
-		{
-			if (RenderTexture != null)
-				RenderTexture.Dispose();
-		}
+		public virtual void Unload() => RenderTexture?.Dispose();
 
 		/// <summary>
 		/// if a RenderTarget is used this will set it up. The Batcher is also started. The passed in Camera will be used to set the ViewPort
@@ -109,7 +102,7 @@ namespace Nez
 			// if we have a renderTarget render into it
 			if (RenderTexture != null)
 			{
-				GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, RenderTexture);
+				Core.GraphicsDevice.SetRenderTarget(RenderTexture);
 				Core.GraphicsDevice.Clear(RenderTargetClearColor);
 			}
 
@@ -141,7 +134,7 @@ namespace Nez
 				FlushBatch(cam);
 			}
 
-			renderable.Render(Graphics.Instance, cam);
+			renderable.Render(Graphics.Instance.Batcher, cam);
 		}
 
 		/// <summary>
@@ -156,10 +149,7 @@ namespace Nez
 		/// <summary>
 		/// ends the Batcher and clears the RenderTarget if it had a RenderTarget
 		/// </summary>
-		protected virtual void EndRender()
-		{
-			Graphics.Instance.Batcher.End();
-		}
+		protected virtual void EndRender() => Graphics.Instance.Batcher.End();
 
 		/// <summary>
 		/// default debugRender method just loops through all entities and calls entity.debugRender. Note that you are in the middle of a batch
@@ -175,7 +165,7 @@ namespace Nez
 			{
 				var entity = scene.Entities[i];
 				if (entity.Enabled)
-					entity.DebugRender(Graphics.Instance);
+					entity.DebugRender(Graphics.Instance.Batcher);
 			}
 		}
 
@@ -186,11 +176,7 @@ namespace Nez
 		/// </summary>
 		/// <param name="newWidth">New width.</param>
 		/// <param name="newHeight">New height.</param>
-		public virtual void OnSceneBackBufferSizeChanged(int newWidth, int newHeight)
-		{
-			if (RenderTexture != null)
-				RenderTexture.OnSceneBackBufferSizeChanged(newWidth, newHeight);
-		}
+		public virtual void OnSceneBackBufferSizeChanged(int newWidth, int newHeight) => RenderTexture?.OnSceneBackBufferSizeChanged(newWidth, newHeight);
 
 		public int CompareTo(Renderer other) => RenderOrder.CompareTo(other.RenderOrder);
 	}

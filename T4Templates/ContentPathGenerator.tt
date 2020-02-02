@@ -63,7 +63,7 @@ namespace Nez
 	{
 		var dirInfo = new DirectoryInfo( dir );
 		var firstIndent = new string( '\t', depth );
-		var className = GenerateClassName( dirInfo.Name, true );
+		var className = GenerateClassName( dirInfo.Name );
 		WriteLine( "{0}public static class {1}\n{2}{{", firstIndent, className, firstIndent );
 
 		// handle subdirectories
@@ -89,7 +89,7 @@ namespace Nez
 				.Replace( ".xnb", string.Empty );
 			var fileInfo = new FileInfo( file );
 			var fileName = fileInfo.Name.Replace( ".xnb", string.Empty );
-			var className = GenerateClassName( fileName, false );
+			var className = GenerateClassName( fileName );
 
 			if( finalPath[0] == '/' || finalPath[0] == '\\' )
 				finalPath = finalPath.Substring( 1 );
@@ -118,13 +118,11 @@ namespace Nez
 
 
 	// attempts to generate a proper path name
-	string GenerateClassName( string className, bool uppercaseFirstChar )
+	string GenerateClassName( string className )
 	{
 		// handle upper or lower casing the first char in the className
-	    if( uppercaseFirstChar && char.IsLower( className[0] ) )
+	    if( char.IsLower( className[0] ) )
 	    	className = char.ToUpper( className[0] ) + className.Substring( 1 );
-	    else if( !uppercaseFirstChar && char.IsUpper( className[0] ) )
-	    	className = char.ToLower( className[0] ) + className.Substring( 1 );
 
         // remove invalid characters
         var regex = new Regex( @"[^\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}\p{Nl}\p{Mn}\p{Mc}\p{Cf}\p{Pc}\p{Lm}]" );

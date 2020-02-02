@@ -42,14 +42,14 @@ namespace Nez.Shadows
 		}
 
 		/// <summary>
-		/// Power of the light, from 0 (turned off) to 1 for maximum brightness        
+		/// Power of the light, from 0 (turned off) to 1 for maximum brightness
 		/// </summary>
 		[Range(0, 50)] public float Power;
 
 		protected float _radius;
 		protected VisibilityComputer _visibility;
 
-		Effect _lightEffect;
+		PolygonLightEffect _lightEffect;
 		FastList<short> _indices = new FastList<short>(50);
 		FastList<VertexPositionTexture> _vertices = new FastList<VertexPositionTexture>(20);
 
@@ -71,9 +71,9 @@ namespace Nez.Shadows
 
 		public PolyLight(float radius, Color color, float power)
 		{
-			this.Radius = radius;
-			this.Power = power;
-			this.Color = color;
+			Radius = radius;
+			Power = power;
+			Color = color;
 			ComputeTriangleIndices();
 		}
 
@@ -87,7 +87,7 @@ namespace Nez.Shadows
 				_areBoundsDirty = true;
 
 				if (_lightEffect != null)
-					_lightEffect.Parameters["lightRadius"].SetValue(radius);
+					_lightEffect.LightRadius = radius;
 			}
 
 			return this;
@@ -95,7 +95,7 @@ namespace Nez.Shadows
 
 		public PolyLight SetPower(float power)
 		{
-			this.Power = power;
+			Power = power;
 			return this;
 		}
 
@@ -108,42 +108,37 @@ namespace Nez.Shadows
 		/// <returns>The overlapped components.</returns>
 		protected virtual int GetOverlappedColliders()
 		{
-			return Physics.OverlapCircleAll(Entity.Position + _localOffset, _radius, _colliderCache,
-				CollidesWithLayers);
+			return Physics.OverlapCircleAll(Entity.Position + _localOffset, _radius, _colliderCache, CollidesWithLayers);
 		}
 
 		/// <summary>
 		/// override point for calling through to VisibilityComputer that allows subclasses to setup their visibility boundaries for
 		/// different shaped lights.
 		/// </summary>
-		protected virtual void LoadVisibilityBoundaries()
-		{
-			_visibility.LoadRectangleBoundaries();
-		}
-
+		protected virtual void LoadVisibilityBoundaries() => _visibility.LoadRectangleBoundaries();
 
 		#region Component and RenderableComponent
 
 		public override void OnAddedToEntity()
 		{
-			_lightEffect = Entity.Scene.Content.LoadEffect<Effect>("polygonLight", EffectResource.PolygonLightBytes);
-			_lightEffect.Parameters["lightRadius"].SetValue(Radius);
+			_lightEffect = Entity.Scene.Content.LoadNezEffect<PolygonLightEffect>();
+			_lightEffect.LightRadius = Radius;
 			_visibility = new VisibilityComputer();
 		}
 
-		public override void Render(Graphics graphics, Camera camera) => RenderImpl(graphics, camera, false);
+		public override void Render(Batcher batcher, Camera camera) => RenderImpl(batcher, camera, false);
 
-		public override void DebugRender(Graphics graphics)
+		public override void DebugRender(Batcher batcher)
 		{
 			// here, we just assume the Camera being used by the Renderer is the standard Scene Camera
-			RenderImpl(Graphics.Instance, Entity.Scene.Camera, true);
+			RenderImpl(batcher, Entity.Scene.Camera, true);
 
 			// draw a square for our pivot/origin and draw our bounds
-			graphics.Batcher.DrawPixel(Entity.Transform.Position + _localOffset, Debug.Colors.RenderableCenter, 4);
-			graphics.Batcher.DrawHollowRect(Bounds, Debug.Colors.RenderableBounds);
+			batcher.DrawPixel(Entity.Transform.Position + _localOffset, Debug.Colors.RenderableCenter, 4);
+			batcher.DrawHollowRect(Bounds, Debug.Colors.RenderableBounds);
 		}
 
-		void RenderImpl(Graphics graphics, Camera camera, bool debugDraw)
+		void RenderImpl(Batcher batcher, Camera camera, bool debugDraw)
 		{
 			if (Power > 0 && IsVisibleFromCamera(camera))
 			{
@@ -181,9 +176,9 @@ namespace Nez.Shadows
 				}
 
 				// Apply the effect
-				_lightEffect.Parameters["viewProjectionMatrix"].SetValue(camera.ViewProjectionMatrix);
-				_lightEffect.Parameters["lightSource"].SetValue(Entity.Transform.Position);
-				_lightEffect.Parameters["lightColor"].SetValue(Color.ToVector3() * Power);
+				_lightEffect.ViewProjectionMatrix = camera.ViewProjectionMatrix;
+				_lightEffect.LightSource = Entity.Transform.Position;
+				_lightEffect.LightColor = Color.ToVector3() * Power;
 				_lightEffect.Techniques[0].Passes[0].Apply();
 
 				Core.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices.Buffer, 0,
@@ -198,7 +193,6 @@ namespace Nez.Shadows
 		/// adds a vert to the list
 		/// </summary>
 		/// <param name="position">Position.</param>
-		/// <param name="texCoord">Tex coordinate.</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		void AddVert(Vector2 position)
 		{

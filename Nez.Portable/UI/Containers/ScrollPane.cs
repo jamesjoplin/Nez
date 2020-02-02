@@ -6,11 +6,11 @@ namespace Nez.UI
 {
 	/// <summary>
 	/// A group that scrolls a child widget using scrollbars and/or mouse or touch dragging.
-	/// 
+	///
 	/// The widget is sized to its preferred size.If the widget's preferred width or height is less than the size of this scroll pane,
 	/// it is set to the size of this scroll pane. Scrollbars appear when the widget is larger than the scroll pane.
-	/// 
-	/// The scroll pane's preferred size is that of the child widget. At this size, the child widget will not need to scroll, so 
+	///
+	/// The scroll pane's preferred size is that of the child widget. At this size, the child widget will not need to scroll, so
 	/// scroll pane is typically sized by ignoring the preferred size in one or both directions.
 	/// </summary>
 	public class ScrollPane : Group, IInputListener
@@ -122,7 +122,7 @@ namespace Nez.UI
 			{
 				if (_widget is ILayout)
 				{
-					var width = ((ILayout) _widget).PreferredWidth;
+					var width = ((ILayout)_widget).PreferredWidth;
 					if (_style.Background != null) width += _style.Background.LeftWidth + _style.Background.RightWidth;
 					if (_forceScrollY)
 					{
@@ -145,7 +145,7 @@ namespace Nez.UI
 			{
 				if (_widget is ILayout)
 				{
-					var height = ((ILayout) _widget).PreferredHeight;
+					var height = ((ILayout)_widget).PreferredHeight;
 					if (_style.Background != null)
 						height += _style.Background.TopHeight + _style.Background.BottomHeight;
 					if (_forceScrollX)
@@ -252,16 +252,16 @@ namespace Nez.UI
 				if (_scrollbarsOnTop)
 				{
 					// Make sure widget is drawn under non-fading scrollbars.
-					if (_scrollX) _widgetAreaBounds.Height += (int) scrollbarHeight;
-					if (_scrollY) _widgetAreaBounds.Width += (int) scrollbarWidth;
+					if (_scrollX) _widgetAreaBounds.Height += (int)scrollbarHeight;
+					if (_scrollY) _widgetAreaBounds.Width += (int)scrollbarWidth;
 				}
 				else
 				{
 					// Offset widget area y for horizontal scrollbar at bottom.
-					if (_scrollX && _hScrollOnBottom) _widgetAreaBounds.Y += (int) scrollbarHeight;
+					if (_scrollX && _hScrollOnBottom) _widgetAreaBounds.Y += (int)scrollbarHeight;
 
 					// Offset widget area x for vertical scrollbar at left.
-					if (_scrollY && !_vScrollOnRight) _widgetAreaBounds.X += (int) scrollbarWidth;
+					if (_scrollY && !_vScrollOnRight) _widgetAreaBounds.X += (int)scrollbarWidth;
 				}
 			}
 
@@ -298,15 +298,15 @@ namespace Nez.UI
 					var boundsY = _hScrollOnBottom ? bgBottomHeight : height - bgTopHeight - hScrollHeight;
 					_hScrollBounds = RectangleExt.FromFloats(boundsX, boundsY, _areaWidth, hScrollHeight);
 					if (_variableSizeKnobs)
-						_hKnobBounds.Width = (int) Math.Max(hScrollKnob.MinWidth,
-							(int) (_hScrollBounds.Width * _areaWidth / widgetWidth));
+						_hKnobBounds.Width = (int)Math.Max(hScrollKnob.MinWidth,
+							(int)(_hScrollBounds.Width * _areaWidth / widgetWidth));
 					else
-						_hKnobBounds.Width = (int) hScrollKnob.MinWidth;
+						_hKnobBounds.Width = (int)hScrollKnob.MinWidth;
 
-					_hKnobBounds.Height = (int) hScrollKnob.MinHeight;
+					_hKnobBounds.Height = (int)hScrollKnob.MinHeight;
 
 					_hKnobBounds.X = _hScrollBounds.X +
-					                 (int) ((_hScrollBounds.Width - _hKnobBounds.Width) * GetScrollPercentX());
+									 (int)((_hScrollBounds.Width - _hKnobBounds.Width) * GetScrollPercentX());
 					_hKnobBounds.Y = _hScrollBounds.Y;
 				}
 				else
@@ -336,19 +336,19 @@ namespace Nez.UI
 						boundsX = bgLeftWidth;
 
 					_vScrollBounds = RectangleExt.FromFloats(boundsX, boundsY, vScrollWidth, _areaHeight);
-					_vKnobBounds.Width = (int) vScrollKnob.MinWidth;
+					_vKnobBounds.Width = (int)vScrollKnob.MinWidth;
 					if (_variableSizeKnobs)
-						_vKnobBounds.Height = (int) Math.Max(vScrollKnob.MinHeight,
-							(int) (_vScrollBounds.Height * _areaHeight / widgetHeight));
+						_vKnobBounds.Height = (int)Math.Max(vScrollKnob.MinHeight,
+							(int)(_vScrollBounds.Height * _areaHeight / widgetHeight));
 					else
-						_vKnobBounds.Height = (int) vScrollKnob.MinHeight;
+						_vKnobBounds.Height = (int)vScrollKnob.MinHeight;
 
 					if (_vScrollOnRight)
-						_vKnobBounds.X = (int) (width - bgRightWidth - vScrollKnob.MinWidth);
+						_vKnobBounds.X = (int)(width - bgRightWidth - vScrollKnob.MinWidth);
 					else
-						_vKnobBounds.X = (int) bgLeftWidth;
+						_vKnobBounds.X = (int)bgLeftWidth;
 					_vKnobBounds.Y = _vScrollBounds.Y +
-					                 (int) ((_vScrollBounds.Height - _vKnobBounds.Height) * (1 - GetScrollPercentY()));
+									 (int)((_vScrollBounds.Height - _vKnobBounds.Height) * (1 - GetScrollPercentY()));
 				}
 				else
 				{
@@ -359,7 +359,7 @@ namespace Nez.UI
 
 			_widget.SetSize(widgetWidth, widgetHeight);
 			if (_widget is ILayout)
-				((ILayout) _widget).Validate();
+				((ILayout)_widget).Validate();
 		}
 
 		#endregion
@@ -1120,11 +1120,11 @@ namespace Nez.UI
 
 			if (_smoothScrolling && _flingTimer <= 0 &&
 
-			    // Scroll smoothly when grabbing the scrollbar if one pixel of scrollbar movement is > 10% of the scroll area.
-			    ((!_touchScrollH ||
-			      (_scrollX && _maxX / (_hScrollBounds.Width - _hKnobBounds.Width) > _areaWidth * 0.1f))
-			     && (!_touchScrollV ||
-			         (_scrollY && _maxY / (_vScrollBounds.Height - _vKnobBounds.Height) > _areaHeight * 0.1f)))
+				// Scroll smoothly when grabbing the scrollbar if one pixel of scrollbar movement is > 10% of the scroll area.
+				((!_touchScrollH ||
+				  (_scrollX && _maxX / (_hScrollBounds.Width - _hKnobBounds.Width) > _areaWidth * 0.1f))
+				 && (!_touchScrollV ||
+					 (_scrollY && _maxY / (_vScrollBounds.Height - _vKnobBounds.Height) > _areaHeight * 0.1f)))
 			)
 			{
 				if (_visualAmountX != _amountX)
@@ -1167,16 +1167,16 @@ namespace Nez.UI
 				{
 					ResetFade();
 					_amountX += (_overscrollSpeedMin +
-					             (_overscrollSpeedMax - _overscrollSpeedMin) * -_amountX / _overscrollDistance) *
-					            Time.UnscaledDeltaTime;
+								 (_overscrollSpeedMax - _overscrollSpeedMin) * -_amountX / _overscrollDistance) *
+								Time.UnscaledDeltaTime;
 					if (_amountX > 0) SetScrollX(0);
 				}
 				else if (_amountX > _maxX)
 				{
 					ResetFade();
 					_amountX -= (_overscrollSpeedMin
-					             + (_overscrollSpeedMax - _overscrollSpeedMin) * -(_maxX - _amountX) /
-					             _overscrollDistance) * Time.UnscaledDeltaTime;
+								 + (_overscrollSpeedMax - _overscrollSpeedMin) * -(_maxX - _amountX) /
+								 _overscrollDistance) * Time.UnscaledDeltaTime;
 					if (_amountX < _maxX) SetScrollX(_maxX);
 				}
 			}
@@ -1187,8 +1187,8 @@ namespace Nez.UI
 				{
 					ResetFade();
 					_amountY += (_overscrollSpeedMin +
-					             (_overscrollSpeedMax - _overscrollSpeedMin) * -_amountY / _overscrollDistance) *
-					            Time.UnscaledDeltaTime;
+								 (_overscrollSpeedMax - _overscrollSpeedMin) * -_amountY / _overscrollDistance) *
+								Time.UnscaledDeltaTime;
 					if (_amountY > 0)
 						SetScrollY(0);
 				}
@@ -1196,7 +1196,7 @@ namespace Nez.UI
 				{
 					ResetFade();
 					_amountY -= (_overscrollSpeedMin + (_overscrollSpeedMax - _overscrollSpeedMin) *
-					             -(_maxY - _amountY) / _overscrollDistance) * Time.UnscaledDeltaTime;
+								 -(_maxY - _amountY) / _overscrollDistance) * Time.UnscaledDeltaTime;
 					if (_amountY < _maxY)
 						SetScrollY(_maxY);
 				}
@@ -1204,7 +1204,7 @@ namespace Nez.UI
 		}
 
 
-		public override void Draw(Graphics graphics, float parentAlpha)
+		public override void Draw(Batcher batcher, float parentAlpha)
 		{
 			if (_widget == null)
 				return;
@@ -1214,14 +1214,14 @@ namespace Nez.UI
 
 			// setup transform for this group.
 			if (transform)
-				ApplyTransform(graphics, ComputeTransform());
+				ApplyTransform(batcher, ComputeTransform());
 
 			if (_scrollX)
 				_hKnobBounds.X = _hScrollBounds.X +
-				                 (int) ((_hScrollBounds.Width - _hKnobBounds.Width) * GetVisualScrollPercentX());
+								 (int)((_hScrollBounds.Width - _hKnobBounds.Width) * GetVisualScrollPercentX());
 			if (_scrollY)
 				_vKnobBounds.Y = _vScrollBounds.Y +
-				                 (int) ((_vScrollBounds.Height - _vKnobBounds.Height) * GetVisualScrollPercentY());
+								 (int)((_vScrollBounds.Height - _vKnobBounds.Height) * GetVisualScrollPercentY());
 
 			// calculate the widget's position depending on the scroll state and available widget area.
 			float eleY = _widgetAreaBounds.Y;
@@ -1232,7 +1232,7 @@ namespace Nez.UI
 
 			float eleX = _widgetAreaBounds.Y;
 			if (_scrollX)
-				eleX -= (int) _visualAmountX;
+				eleX -= (int)_visualAmountX;
 
 			if (!_fadeScrollBars && _scrollbarsOnTop)
 			{
@@ -1258,83 +1258,83 @@ namespace Nez.UI
 			if (_widget is ICullable)
 			{
 				var cull = new Rectangle(
-					(int) (-_widget.GetX() + _widgetAreaBounds.X),
-					(int) (-_widget.GetY() + _widgetAreaBounds.Y),
+					(int)(-_widget.GetX() + _widgetAreaBounds.X),
+					(int)(-_widget.GetY() + _widgetAreaBounds.Y),
 					_widgetAreaBounds.Width,
 					_widgetAreaBounds.Height);
-				((ICullable) _widget).SetCullingArea(cull);
+				((ICullable)_widget).SetCullingArea(cull);
 			}
 
 			// draw the background
 			var color = GetColor();
-			color = new Color(color, (int) (color.A * parentAlpha));
+			color = ColorExt.Create(color, (int)(color.A * parentAlpha));
 			if (_style.Background != null)
-				_style.Background.Draw(graphics, 0, 0, GetWidth(), GetHeight(), color);
+				_style.Background.Draw(batcher, 0, 0, GetWidth(), GetHeight(), color);
 
 			// caculate the scissor bounds based on the batch transform, the available widget area and the camera transform. We need to
 			// project those to screen coordinates for OpenGL to consume.
 			var scissor =
-				ScissorStack.CalculateScissors(stage?.Camera, graphics.Batcher.TransformMatrix, _widgetAreaBounds);
+				ScissorStack.CalculateScissors(_stage?.Camera, batcher.TransformMatrix, _widgetAreaBounds);
 			if (ScissorStack.PushScissors(scissor))
 			{
-				graphics.Batcher.EnableScissorTest(true);
-				DrawChildren(graphics, parentAlpha);
-				graphics.Batcher.EnableScissorTest(false);
+				batcher.EnableScissorTest(true);
+				DrawChildren(batcher, parentAlpha);
+				batcher.EnableScissorTest(false);
 				ScissorStack.PopScissors();
 			}
 
 			// render scrollbars and knobs on top
-			var alpha = (float) color.A;
-			color.A = (byte) (alpha * (_fadeAlpha / _fadeAlphaSeconds));
+			var alpha = (float)color.A;
+			color.A = (byte)(alpha * (_fadeAlpha / _fadeAlphaSeconds));
 			if (_scrollX && _scrollY)
 			{
 				if (_style.Corner != null)
-					_style.Corner.Draw(graphics, _hScrollBounds.X + _hScrollBounds.Width, _hScrollBounds.Y,
+					_style.Corner.Draw(batcher, _hScrollBounds.X + _hScrollBounds.Width, _hScrollBounds.Y,
 						_vScrollBounds.Width, _vScrollBounds.Y, color);
 			}
 
 			if (_scrollX)
 			{
 				if (_style.HScroll != null)
-					_style.HScroll.Draw(graphics, _hScrollBounds.X, _hScrollBounds.Y, _hScrollBounds.Width,
+					_style.HScroll.Draw(batcher, _hScrollBounds.X, _hScrollBounds.Y, _hScrollBounds.Width,
 						_hScrollBounds.Height, color);
 				if (_style.HScrollKnob != null)
-					_style.HScrollKnob.Draw(graphics, _hKnobBounds.X, _hKnobBounds.Y, _hKnobBounds.Width,
+					_style.HScrollKnob.Draw(batcher, _hKnobBounds.X, _hKnobBounds.Y, _hKnobBounds.Width,
 						_hKnobBounds.Height, color);
 			}
 
 			if (_scrollY)
 			{
 				if (_style.VScroll != null)
-					_style.VScroll.Draw(graphics, _vScrollBounds.X, _vScrollBounds.Y, _vScrollBounds.Width,
+					_style.VScroll.Draw(batcher, _vScrollBounds.X, _vScrollBounds.Y, _vScrollBounds.Width,
 						_vScrollBounds.Height, color);
 				if (_style.VScrollKnob != null)
-					_style.VScrollKnob.Draw(graphics, _vKnobBounds.X, _vKnobBounds.Y, _vKnobBounds.Width,
+					_style.VScrollKnob.Draw(batcher, _vKnobBounds.X, _vKnobBounds.Y, _vKnobBounds.Width,
 						_vKnobBounds.Height, color);
 			}
 
 			if (transform)
-				ResetTransform(graphics);
+				ResetTransform(batcher);
 		}
 
 
-		public override void DebugRender(Graphics graphics)
+		public override void DebugRender(Batcher batcher)
 		{
 			if (transform)
-				ApplyTransform(graphics, ComputeTransform());
+				ApplyTransform(batcher, ComputeTransform());
 
 			var scissor =
-				ScissorStack.CalculateScissors(stage?.Camera, graphics.Batcher.TransformMatrix, _widgetAreaBounds);
+				ScissorStack.CalculateScissors(_stage?.Camera, batcher.TransformMatrix, _widgetAreaBounds);
 			if (ScissorStack.PushScissors(scissor))
 			{
-				graphics.Batcher.EnableScissorTest(true);
-				DebugRenderChildren(graphics, 1f);
-				graphics.Batcher.EnableScissorTest(false);
+				batcher.EnableScissorTest(true);
+				DebugRenderChildren(batcher, 1f);
+				batcher.EnableScissorTest(false);
 				ScissorStack.PopScissors();
 			}
 
 			if (transform)
-				ResetTransform(graphics);
+				ResetTransform(batcher);
 		}
 
 
@@ -1371,13 +1371,13 @@ namespace Nez.UI
 
 
 		public ScrollPaneStyle(IDrawable background, IDrawable hScroll, IDrawable hScrollKnob, IDrawable vScroll,
-		                       IDrawable vScrollKnob)
+							   IDrawable vScrollKnob)
 		{
-			this.Background = background;
-			this.HScroll = hScroll;
-			this.HScrollKnob = hScrollKnob;
-			this.VScroll = vScroll;
-			this.VScrollKnob = vScrollKnob;
+			Background = background;
+			HScroll = hScroll;
+			HScrollKnob = hScrollKnob;
+			VScroll = vScroll;
+			VScrollKnob = vScrollKnob;
 		}
 
 

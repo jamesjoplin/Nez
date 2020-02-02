@@ -8,10 +8,7 @@ namespace Nez.AI.FSM
 	{
 		public event Action OnStateChanged;
 
-		public State<T> CurrentState
-		{
-			get { return _currentState; }
-		}
+		public State<T> CurrentState => _currentState;
 
 		public State<T> PreviousState;
 		public float ElapsedTimeInState = 0f;
@@ -50,6 +47,19 @@ namespace Nez.AI.FSM
 			ElapsedTimeInState += deltaTime;
 			_currentState.Reason();
 			_currentState.Update(deltaTime);
+		}
+
+		/// <summary>
+		/// Gets a specific state from the machine without having to
+		/// change to it.
+		/// </summary>
+		public virtual R GetState<R>() where R : State<T>
+		{
+			var type = typeof(R);
+			Insist.IsTrue(_states.ContainsKey(type),
+				"{0}: state {1} does not exist. Did you forget to add it by calling addState?", GetType(), type);
+
+			return (R)_states[type];
 		}
 
 

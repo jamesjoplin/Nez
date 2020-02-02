@@ -6,7 +6,7 @@ using Nez.BitmapFonts;
 
 namespace Nez
 {
-	public class FramesPerSecondCounter : TextField, IUpdatable
+	public class FramesPerSecondCounter : TextComponent, IUpdatable
 	{
 		public enum FPSDockPosition
 		{
@@ -60,15 +60,14 @@ namespace Nez
 
 
 		public FramesPerSecondCounter() : this(Graphics.Instance.BitmapFont, Color.White)
-		{
-		}
+		{ }
 
 		public FramesPerSecondCounter(BitmapFont font, Color color,
 		                              FPSDockPosition dockPosition = FPSDockPosition.TopRight, int maximumSamples = 100)
 			: base(font, string.Empty, Vector2.Zero, color)
 		{
-			this.MaximumSamples = maximumSamples;
-			this.DockPosition = dockPosition;
+			MaximumSamples = maximumSamples;
+			DockPosition = dockPosition;
 			Init();
 		}
 
@@ -76,8 +75,8 @@ namespace Nez
 		                              FPSDockPosition dockPosition = FPSDockPosition.TopRight, int maximumSamples = 100)
 			: base(font, string.Empty, Vector2.Zero, color)
 		{
-			this.MaximumSamples = maximumSamples;
-			this.DockPosition = dockPosition;
+			MaximumSamples = maximumSamples;
+			DockPosition = dockPosition;
 			Init();
 		}
 
@@ -145,19 +144,19 @@ namespace Nez
 			return true;
 		}
 
-		public override void Render(Graphics graphics, Camera camera)
+		public override void Render(Batcher batcher, Camera camera)
 		{
 			// we override render and use position instead of entityPosition. this keeps the text in place even if the entity moves
-			graphics.Batcher.DrawString(_font, _text, LocalOffset, Color, Entity.Transform.Rotation, Origin,
+			batcher.DrawString(_font, _text, LocalOffset, Color, Entity.Transform.Rotation, Origin,
 				Entity.Transform.Scale, SpriteEffects, LayerDepth);
 		}
 
-		public override void DebugRender(Graphics graphics)
+		public override void DebugRender(Batcher batcher)
 		{
 			// due to the override of position in render we have to do the same here
 			var rect = Bounds;
 			rect.Location = LocalOffset;
-			graphics.Batcher.DrawHollowRect(rect, Color.Yellow);
+			batcher.DrawHollowRect(rect, Color.Yellow);
 		}
 
 
@@ -169,7 +168,7 @@ namespace Nez
 		/// <param name="dockOffset">Offset from screen edges</param>
 		public FramesPerSecondCounter SetDockOffset(Vector2 dockOffset)
 		{
-			this.DockOffset = dockOffset;
+			DockOffset = dockOffset;
 			return this;
 		}
 
@@ -179,7 +178,7 @@ namespace Nez
 		/// <param name="dockPosition">Corner of the screen</param>
 		public FramesPerSecondCounter SetDockPosition(FPSDockPosition dockPosition)
 		{
-			this.DockPosition = dockPosition;
+			DockPosition = dockPosition;
 			return this;
 		}
 

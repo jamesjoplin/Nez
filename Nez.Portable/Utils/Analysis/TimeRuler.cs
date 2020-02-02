@@ -161,7 +161,7 @@ namespace Nez.Analysis
 
 			public MarkerInfo(string name)
 			{
-				this.Name = name;
+				Name = name;
 			}
 		}
 
@@ -258,7 +258,7 @@ namespace Nez.Analysis
 		{
 			Instance.ShowLog = !Instance.ShowLog;
 			DebugConsole.Instance.Log("TimeRuler enabled: " + (Instance.ShowLog ? "yes" : "no"));
-			DebugConsole.Instance.isOpen = false;
+			DebugConsole.Instance.IsOpen = false;
 		}
 
 		#endregion
@@ -536,7 +536,7 @@ namespace Nez.Analysis
 			if (!ShowLog)
 				return;
 
-			// Gets Batcher, SpriteFont, and WhiteTexture from Graphics.
+			// Gets Batcher, SpriteFont, and WhiteTexture from Batcher.
 			var batcher = Graphics.Instance.Batcher;
 			var font = Graphics.Instance.BitmapFont;
 

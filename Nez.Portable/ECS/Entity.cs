@@ -42,8 +42,8 @@ namespace Nez
 		/// </summary>
 		public int Tag
 		{
-			get { return _tag; }
-			set { SetTag(value); }
+			get => _tag;
+			set => SetTag(value);
 		}
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace Nez
 		/// </summary>
 		public bool Enabled
 		{
-			get { return _enabled; }
-			set { SetEnabled(value); }
+			get => _enabled;
+			set => SetEnabled(value);
 		}
 
 		/// <summary>
@@ -66,8 +66,8 @@ namespace Nez
 		/// <value>The order.</value>
 		public int UpdateOrder
 		{
-			get { return _updateOrder; }
-			set { SetUpdateOrder(value); }
+			get => _updateOrder;
+			set => SetUpdateOrder(value);
 		}
 
 		/// <summary>
@@ -94,97 +94,97 @@ namespace Nez
 		public Transform Parent
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.Parent; }
+			get => Transform.Parent;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetParent(value); }
+			set => Transform.SetParent(value);
 		}
 
 		public int ChildCount
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.ChildCount; }
+			get => Transform.ChildCount;
 		}
 
 		public Vector2 Position
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.Position; }
+			get => Transform.Position;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetPosition(value); }
+			set => Transform.SetPosition(value);
 		}
 
 		public Vector2 LocalPosition
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.LocalPosition; }
+			get => Transform.LocalPosition;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetLocalPosition(value); }
+			set => Transform.SetLocalPosition(value);
 		}
 
 		public float Rotation
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.Rotation; }
+			get => Transform.Rotation;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetRotation(value); }
+			set => Transform.SetRotation(value);
 		}
 
 		public float RotationDegrees
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.RotationDegrees; }
+			get => Transform.RotationDegrees;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetRotationDegrees(value); }
+			set => Transform.SetRotationDegrees(value);
 		}
 
 		public float LocalRotation
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.LocalRotation; }
+			get => Transform.LocalRotation;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetLocalRotation(value); }
+			set => Transform.SetLocalRotation(value);
 		}
 
 		public float LocalRotationDegrees
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.LocalRotationDegrees; }
+			get => Transform.LocalRotationDegrees;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetLocalRotationDegrees(value); }
+			set => Transform.SetLocalRotationDegrees(value);
 		}
 
 		public Vector2 Scale
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.Scale; }
+			get => Transform.Scale;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetScale(value); }
+			set => Transform.SetScale(value);
 		}
 
 		public Vector2 LocalScale
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.LocalScale; }
+			get => Transform.LocalScale;
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set { Transform.SetLocalScale(value); }
+			set => Transform.SetLocalScale(value);
 		}
 
 		public Matrix2D WorldInverseTransform
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.WorldInverseTransform; }
+			get => Transform.WorldInverseTransform;
 		}
 
 		public Matrix2D LocalToWorldTransform
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.LocalToWorldTransform; }
+			get => Transform.LocalToWorldTransform;
 		}
 
 		public Matrix2D WorldToLocalTransform
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return Transform.WorldToLocalTransform; }
+			get => Transform.WorldToLocalTransform;
 		}
 
 		#endregion
@@ -194,7 +194,7 @@ namespace Nez
 		{
 			Components = new ComponentList(this);
 			Transform = new Transform(this);
-			this.Name = name;
+			Name = name;
 			Id = _idGenerator++;
 
 			if (Core.entitySystemsEnabled)
@@ -202,8 +202,7 @@ namespace Nez
 		}
 
 		public Entity() : this(Utils.RandomString(8))
-		{
-		}
+		{ }
 
 		internal void OnTransformChanged(Transform.Component comp)
 		{
@@ -297,8 +296,8 @@ namespace Nez
 
 		/// <summary>
 		/// detaches the Entity from the scene.
-		/// the following lifecycle method will be called on the Entity: onRemovedFromScene
-		/// the following lifecycle method will be called on the Components: onRemovedFromEntity
+		/// the following lifecycle method will be called on the Entity: OnRemovedFromScene
+		/// the following lifecycle method will be called on the Components: OnRemovedFromEntity
 		/// </summary>
 		public void DetachFromScene()
 		{
@@ -325,8 +324,8 @@ namespace Nez
 
 		/// <summary>
 		/// creates a deep clone of this Entity. Subclasses can override this method to copy any custom fields. When overriding,
-		/// the copyFrom method should be called which will clone all Components, Colliders and Transform children for you. Note that cloned
-		/// Entity will not be added to any Scene! You must add them yourself!
+		/// the CopyFrom method should be called which will clone all Components, Colliders and Transform children for you. Note
+		/// that the cloned Entity will not be added to any Scene! You must add them yourself!
 		/// </summary>
 		public virtual Entity Clone(Vector2 position = default(Vector2))
 		{
@@ -377,8 +376,7 @@ namespace Nez
 		/// Called when this entity is added to a scene after all pending entity changes are committed
 		/// </summary>
 		public virtual void OnAddedToScene()
-		{
-		}
+		{ }
 
 		/// <summary>
 		/// Called when this entity is removed from a scene
@@ -393,19 +391,13 @@ namespace Nez
 		/// <summary>
 		/// called each frame as long as the Entity is enabled
 		/// </summary>
-		public virtual void Update()
-		{
-			Components.Update();
-		}
+		public virtual void Update() => Components.Update();
 
 		/// <summary>
 		/// called if Core.debugRenderEnabled is true by the default renderers. Custom renderers can choose to call it or not.
 		/// </summary>
-		/// <param name="graphics">Graphics.</param>
-		public virtual void DebugRender(Graphics graphics)
-		{
-			Components.DebugRender(graphics);
-		}
+		/// <param name="batcher">Batcher.</param>
+		public virtual void DebugRender(Batcher batcher) => Components.DebugRender(batcher);
 
 		#endregion
 
@@ -445,10 +437,7 @@ namespace Nez
 		/// </summary>
 		/// <returns>The component.</returns>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public T GetComponent<T>() where T : Component
-		{
-			return Components.GetComponent<T>(false);
-		}
+		public T GetComponent<T>() where T : Component => Components.GetComponent<T>(false);
 
 		/// <summary>
 		/// Gets the first Component of type T and returns it. If no Component is found the Component will be created.
@@ -481,25 +470,18 @@ namespace Nez
 		/// </summary>
 		/// <param name="componentList">Component list.</param>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public void GetComponents<T>(List<T> componentList) where T : class
-		{
-			Components.GetComponents(componentList);
-		}
+		public void GetComponents<T>(List<T> componentList) where T : class => Components.GetComponents(componentList);
 
 		/// <summary>
 		/// Gets all the components of type T. The returned List can be put back in the pool via ListPool.free.
 		/// </summary>
 		/// <returns>The component.</returns>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public List<T> GetComponents<T>() where T : Component
-		{
-			return Components.GetComponents<T>();
-		}
+		public List<T> GetComponents<T>() where T : Component => Components.GetComponents<T>();
 
 		/// <summary>
 		/// removes the first Component of type T from the components list
 		/// </summary>
-		/// <param name="component">The Component to remove</param>
 		public bool RemoveComponent<T>() where T : Component
 		{
 			var comp = GetComponent<T>();
@@ -516,10 +498,7 @@ namespace Nez
 		/// removes a Component from the components list
 		/// </summary>
 		/// <param name="component">The Component to remove</param>
-		public void RemoveComponent(Component component)
-		{
-			Components.Remove(component);
-		}
+		public void RemoveComponent(Component component) => Components.Remove(component);
 
 		/// <summary>
 		/// removes all Components from the Entity
@@ -543,8 +522,7 @@ namespace Nez
 
 		public override string ToString()
 		{
-			return string.Format("[Entity: name: {0}, tag: {1}, enabled: {2}, depth: {3}]", Name, Tag, Enabled,
-				UpdateOrder);
+			return string.Format("[Entity: name: {0}, tag: {1}, enabled: {2}, depth: {3}]", Name, Tag, Enabled, UpdateOrder);
 		}
 	}
 }

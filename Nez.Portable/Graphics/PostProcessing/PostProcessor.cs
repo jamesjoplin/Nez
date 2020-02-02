@@ -44,8 +44,8 @@ namespace Nez
 		public PostProcessor(int executionOrder, Effect effect = null)
 		{
 			Enabled = true;
-			this.ExecutionOrder = executionOrder;
-			this.Effect = effect;
+			ExecutionOrder = executionOrder;
+			Effect = effect;
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Nez
 		/// </summary>
 		protected void DrawFullscreenQuad(Texture2D texture, RenderTarget2D renderTarget, Effect effect = null)
 		{
-			GraphicsDeviceExt.SetRenderTarget(Core.GraphicsDevice, renderTarget);
+			Core.GraphicsDevice.SetRenderTarget(renderTarget);
 			DrawFullscreenQuad(texture, renderTarget.Width, renderTarget.Height, effect);
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Nez.Tweens;
 
 
@@ -56,7 +55,7 @@ namespace Nez.UI
 		ITimer _showTask, _resetTask;
 
 
-		static public TooltipManager GetInstance()
+		public static TooltipManager GetInstance()
 		{
 			if (instance == null)
 				instance = new TooltipManager();

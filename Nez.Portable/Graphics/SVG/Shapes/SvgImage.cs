@@ -26,10 +26,7 @@ namespace Nez.Svg
 		/// the rect encompassing this image. Note that the rect is with no transforms applied.
 		/// </summary>
 		/// <value>The rect.</value>
-		public RectangleF Rect
-		{
-			get { return new RectangleF(X, Y, Width, Height); }
-		}
+		public RectangleF Rect => new RectangleF(X, Y, Width, Height);
 
 		[XmlAttribute("href", Namespace = "http://www.w3.org/1999/xlink")]
 		public string Href;
@@ -61,11 +58,15 @@ namespace Nez.Svg
 			// check for a url
 			if (Href.StartsWith("http"))
 			{
+#if USE_HTTPCLIENT
 				using (var client = new System.Net.Http.HttpClient())
 				{
 					var stream = client.GetStreamAsync(Href).Result;
 					_texture = Texture2D.FromStream(Core.GraphicsDevice, stream);
 				}
+#else
+				throw new Exception("Found a texture in an SVG file but the USE_HTTPCLIENT build define is not set and/or HTTP Client is not referenced");
+#endif
 			}
 
 			// see if we have a path to a png files in the href

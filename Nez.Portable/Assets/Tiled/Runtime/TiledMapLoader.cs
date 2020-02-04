@@ -11,6 +11,8 @@ namespace Nez.Tiled
 {
 	public static class TiledMapLoader
 	{
+		public static bool EnableTextureLoading = true;
+
 		#region TmxMap Loader
 
 		public static TmxMap LoadTmxMap(this TmxMap map, string filepath)
@@ -494,7 +496,7 @@ namespace Nez.Tiled
 			layer.OffsetY = (float?)xImageLayer.Attribute("offsety") ?? 0.0f;
 
 			var xImage = xImageLayer.Element("image");
-			if (xImage != null)
+			if (xImage != null && EnableTextureLoading)
 				layer.Image = new TmxImage().LoadTmxImage(xImage, tmxDir);
 
 			layer.Properties = ParsePropertyDict(xImageLayer.Element("properties"));
@@ -539,7 +541,7 @@ namespace Nez.Tiled
 			tileset.TileOffset = ParseTmxTileOffset(xTileset.Element("tileoffset"));
 
 			var xImage = xTileset.Element("image");
-			if (xImage != null)
+			if (xImage != null && EnableTextureLoading)
 				tileset.Image = new TmxImage().LoadTmxImage(xImage, tmxDir);
 
 			var xTerrainType = xTileset.Element("terraintypes");
@@ -612,7 +614,7 @@ namespace Nez.Tiled
 			tile.Probability = (double?)xTile.Attribute("probability") ?? 1.0;
 			tile.Type = (string)xTile.Attribute("type");
 			var xImage = xTile.Element("image");
-			if (xImage != null)
+			if (xImage != null && EnableTextureLoading)
 				tile.Image = new TmxImage().LoadTmxImage(xImage, tmxDir);
 
 			tile.ObjectGroups = new TmxList<TmxObjectGroup>();

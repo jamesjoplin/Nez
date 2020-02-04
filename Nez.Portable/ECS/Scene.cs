@@ -302,18 +302,14 @@ namespace Nez
 
 		#endregion
 
-		public Scene() : this(true)
-		{
-
-		}
-
-
-		public Scene(bool createContentManager)
+		public Scene(NezContentManager sharedContentManager = null)
 		{
 			Entities = new EntityList(this);
 			RenderableComponents = new RenderableComponentList();
 
-			if (createContentManager)
+			if (sharedContentManager != null)
+				Content = sharedContentManager;
+			else
 				Content = new NezContentManager();
 
 			var cameraEntity = CreateEntity("camera");

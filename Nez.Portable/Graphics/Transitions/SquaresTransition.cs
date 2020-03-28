@@ -85,7 +85,7 @@ namespace Nez
 			_overlayTexture = Graphics.CreateSingleColorTexture(1, 1, Color.Transparent);
 
 			// populate squares
-			yield return Core.StartCoroutine(TickEffectProgressProperty(_squaresEffect, SquaresInDuration, EaseType));
+			yield return Core.StartCoroutine(TickEffectProgressProperty(_squaresEffect, SquaresOutDuration, EaseType));
 
 			// load up the new Scene
 			yield return Core.StartCoroutine(LoadNextScene());

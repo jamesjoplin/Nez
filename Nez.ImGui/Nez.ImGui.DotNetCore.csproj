@@ -1,14 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Nez.ImGui</RootNamespace>
-	<AssemblyName>Nez.ImGui</AssemblyName>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+  	<PropertyGroup>
+    	<TargetFramework>netstandard2.0</TargetFramework>
+    	<RootNamespace>Nez.ImGui</RootNamespace>
+		<AssemblyName>Nez.ImGui</AssemblyName>
+    	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    	<DefineConstants>TRACE;DEBUG;FNA</DefineConstants>
+    	<PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+  	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    	<DefineConstants>FNA</DefineConstants>
+  	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="../Modules/FNA/FNA.Core.csproj" />
 		<ProjectReference Include="../Nez.Portable/Nez.DotNetCore.csproj" />
 		<ProjectReference Include="../Nez.Persistence/Nez.Persistence.DotNetCore.csproj" />
 	</ItemGroup>
@@ -45,6 +54,5 @@
 
 	<ItemGroup>
 		<PackageReference Include="ImGui.NET" Version="1.71.0" />
-		<PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7"/>
 	</ItemGroup>
 </Project>

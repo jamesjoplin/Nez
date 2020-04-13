@@ -7,11 +7,20 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;FNA</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>FNA</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Nez.Portable\Nez.DotNetCore.csproj">      
+    <ProjectReference Include="../Modules/FNA/FNA.Core.csproj" />
+    <ProjectReference Include="../Nez.Portable/Nez.DotNetCore.csproj">
       <Name>Nez</Name>
     </ProjectReference>
-    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7"/>
   </ItemGroup>
 
 </Project>

@@ -88,7 +88,7 @@ namespace Nez
 		/// <summary>
 		/// internal flag used to determine if EntitySystems should be used or not
 		/// </summary>
-		internal static bool entitySystemsEnabled;
+		internal static bool entitySystemsEnabled = true;
 
 #if DEBUG
 		internal static long drawCalls;

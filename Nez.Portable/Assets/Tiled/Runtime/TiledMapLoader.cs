@@ -160,8 +160,9 @@ namespace Nez.Tiled
 				{
 					var xDocTileset = XDocument.Load(stream);
 
-					var tileset = new TmxTileset().LoadTmxTileset(map, xDocTileset.Element("tileset"), firstGid, tmxDir);
-					tileset.TmxDirectory = Path.GetDirectoryName(source);
+					string tsxDir = Path.GetDirectoryName(source);
+					var tileset = new TmxTileset().LoadTmxTileset(map, xDocTileset.Element("tileset"), firstGid, tsxDir);
+					tileset.TmxDirectory = tsxDir;
 
 					return tileset;
 				}
@@ -538,7 +539,7 @@ namespace Nez.Tiled
 			return group;
 		}
 
-		public static TmxTileset LoadTmxTileset(this TmxTileset tileset, TmxMap map, XElement xTileset, int firstGid, string tmxDir)
+		public static TmxTileset LoadTmxTileset(this TmxTileset tileset, TmxMap map, XElement xTileset, int firstGid, string tsxDir)
 		{
 			tileset.Map = map;
 			tileset.FirstGid = firstGid;
@@ -553,8 +554,8 @@ namespace Nez.Tiled
 			tileset.TileOffset = ParseTmxTileOffset(xTileset.Element("tileoffset"));
 
 			var xImage = xTileset.Element("image");
-			if (xImage != null && EnableTextureLoading)
-				tileset.Image = new TmxImage().LoadTmxImage(xImage, tmxDir);
+			if (xImage != null)
+				tileset.Image = new TmxImage().LoadTmxImage(xImage, tsxDir);
 
 			var xTerrainType = xTileset.Element("terraintypes");
 			if (xTerrainType != null)
@@ -567,7 +568,7 @@ namespace Nez.Tiled
 			tileset.Tiles = new Dictionary<int, TmxTilesetTile>();
 			foreach (var xTile in xTileset.Elements("tile"))
 			{
-				var tile = new TmxTilesetTile().LoadTmxTilesetTile(tileset, xTile, tileset.Terrains, tmxDir);
+				var tile = new TmxTilesetTile().LoadTmxTilesetTile(tileset, xTile, tileset.Terrains, tsxDir);
 				tileset.Tiles[tile.Id] = tile;
 			}
 

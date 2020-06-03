@@ -29,8 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
-      <EmbeddedResource Include="Content\NezDefaultBMFont.xnb">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </EmbeddedResource>
-    </ItemGroup>
+    <EmbeddedResource Include="Content\NezDefaultBMFont.xnb">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="CompileFNA3D" BeforeTargets="BeforeBuild">
+    <Message Importance="High" Text="FNA3D not found; compiling..." Condition="!Exists('../Modules/FNA3D/libFNA3D.so')" />
+    <Exec Command="cmake . ; make" WorkingDirectory="../Modules/FNA3D" Condition="!Exists('../Modules/FNA3D/libFNA3D.so')" />
+  </Target>
+
 </Project>

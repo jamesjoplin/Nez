@@ -554,7 +554,7 @@ namespace Nez.Tiled
 			tileset.TileOffset = ParseTmxTileOffset(xTileset.Element("tileoffset"));
 
 			var xImage = xTileset.Element("image");
-			if (xImage != null)
+			if (xImage != null && EnableTextureLoading)
 				tileset.Image = new TmxImage().LoadTmxImage(xImage, tsxDir);
 
 			var xTerrainType = xTileset.Element("terraintypes");
